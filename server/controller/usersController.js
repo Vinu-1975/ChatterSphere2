@@ -1,5 +1,7 @@
+const generateToken = require('../config/generateToken')
 const User = require('../model/userModel')
 const bcrypt = require('bcrypt')
+
 
 module.exports.register = async (req,res,next) => {
     try{
@@ -15,9 +17,18 @@ module.exports.register = async (req,res,next) => {
             email,
             password:hashedPassword
         })
+        returnUser = {
+            _id:user._id,
+            username:user.username,
+            email:user.email,
+            token:generateToken(user._id)
+        }
+        console.log(returnUser)
         delete user.password
-        return res.json({status:true,user})
+        res.status(201).json({status:true,returnUser})
     }catch(ex){
+        res.status(400)
+        throw new Error("Failed to create an Account")
         next(ex)
     }
 }
