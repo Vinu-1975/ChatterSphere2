@@ -2,6 +2,29 @@ const generateToken = require('../config/generateToken')
 const User = require('../model/userModel')
 const bcrypt = require('bcrypt')
 
+module.exports.allUsers = async(req, res) => {
+    try {
+        const keyword = req.query.search
+        ? {
+            $or: [
+                { username: { $regex: req.query.search, $options: "i" } },
+                { email: { $regex: req.query.search, $options: "i" } }
+            ]
+        } : {};
+        // const users = await User.find(keyword).find({_id:{$ne:req.user._id}});
+        const users = await User.find({ 
+            ...keyword,
+            _id: { $ne: req.user._id }
+        });
+
+        console.log(users)
+        res.send(users);
+    } catch (err) {
+        console.error(err);  // This provides better visibility in the console.
+        res.status(500).send('Internal server error');
+    }
+}
+
 
 module.exports.register = async (req,res,next) => {
     try{
@@ -42,7 +65,13 @@ module.exports.login = async (req,res,next) => {
         const isPasswordValid = await bcrypt.compare(password,user.password)
         if(!isPasswordValid) return res.json({msg:"Incorrect Username or Password",status:false})
         delete user.password
-        return res.json({status:true,user})
+        returnUser = {
+            _id:user._id,
+            username:user.username,
+            email:user.email,
+            token:generateToken(user._id)
+        }
+        return res.json({status:true,returnUser})
     }catch(ex){
         next(ex)
     }
