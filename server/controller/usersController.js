@@ -7,15 +7,15 @@ module.exports.allUsers = async(req, res) => {
         const keyword = req.query.search
         ? {
             $or: [
-                { username: { $regex: req.query.search, $options: "i" } },
-                { email: { $regex: req.query.search, $options: "i" } }
+                { username: { $regex: '^'+ req.query.search, $options: "i" } },
+                // { email: { $regex: req.query.search, $options: "i" } }
             ]
         } : {};
         // const users = await User.find(keyword).find({_id:{$ne:req.user._id}});
         const users = await User.find({ 
             ...keyword,
             _id: { $ne: req.user._id }
-        });
+        }).limit(10);
 
         console.log(users)
         res.send(users);

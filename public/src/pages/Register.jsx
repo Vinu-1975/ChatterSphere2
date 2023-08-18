@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -43,6 +43,12 @@ export default function Register() {
   //     }
   //   }
   // }
+
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem('ChatterSphere-user'))
+  //   if(user) navigate("/chats")
+  // }, [navigate])
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()

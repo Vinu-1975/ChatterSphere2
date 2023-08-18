@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../assets/Infinity.gif'
 import { loginRoute } from '../utils/APIRoutes'
 
-export default function Register() {
+export default function Login() {
   const navigate = useNavigate()
   
   const [values,setValues] = useState({
@@ -41,6 +41,10 @@ export default function Register() {
 //     }
 
 //   }
+// useEffect(() => {
+//     const user = JSON.parse(localStorage.getItem('ChatterSphere-user'))
+//     if(user) navigate("/chats")
+//   }, [navigate])
 
 const handleSubmit = async (e) => {
     e.preventDefault()
@@ -54,11 +58,12 @@ const handleSubmit = async (e) => {
         const [{ data }] = await Promise.all([request, delay]);
 
         setIsLoading(false);
+        console.log(data)
         if(data.status === false){
             toast.error(data.msg)
         }
         if(data.status === true){
-            localStorage.setItem('ChatterSphere-user',JSON.stringify(data.user))
+            localStorage.setItem('ChatterSphere-user',JSON.stringify(data.returnUser))
             navigate("/")
         }
     }
@@ -123,10 +128,10 @@ const handleSubmit = async (e) => {
                 {errors.password && <p>{errors.password}</p>}
               </div>
               <button type='submit'>
-                Create Account
+                Login
               </button>
               <span>
-                Already have an account?  <Link to="/register">REGISTER</Link>
+                New to ChatterSphere?  <Link to="/register">REGISTER</Link>
               </span>
             </form>
           </div>
