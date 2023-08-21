@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import SideBar from '../components/SideBarChat'
 import ChatBox from '../components/ChatBox'
 import { useNavigate } from 'react-router-dom'
+import TopBar from '../components/SideBar'
 
 export default function Chat() {
   const navigate = useNavigate()
@@ -24,7 +25,7 @@ export default function Chat() {
   // console.log(user)
   return (
     <Container>
-      {/* <SideBar user={user}/> */}
+      {user && <TopBar user = {user}/>}
       {user && <SideBar user = {user}/>}
       <ChatBox user = {user}/>
     </Container>

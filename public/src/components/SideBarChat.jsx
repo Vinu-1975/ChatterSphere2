@@ -12,7 +12,8 @@ export default function SideBarChat({ user }) {
   const [loading,setLoading] = useState(false)
   const [loadingChat,setLoadingChat] = useState(false)
   const [selectedChat, setSelectedChat] = useState(null);
-  console.log(searchResult)
+  const [chats,setChats] = useState(null)
+ 
   const handleSearch = async () => {
     if (!search.trim()) {
         setSearchResult([]); 
@@ -51,6 +52,7 @@ export default function SideBarChat({ user }) {
         }
       }
       const { data } = await axios.post(createChat,{userId},config);
+      // if(!chats.find((c)=> c._id === data._id)) setChats([data,...chats])
       console.log(data)
       setSelectedChat(data)
       setLoadingChat(false)
@@ -89,7 +91,7 @@ export default function SideBarChat({ user }) {
                   ))} */}
                   {
                     searchResult.map((result,index)=>(
-                      <UserCard key={index}>
+                      <UserCard key={index} onClick={()=>accessChat(user._id)}>
                         <img src={result.avatarImage} alt="" />
                         <div className="userInfo">
                           <h3>{result.username}</h3>
@@ -107,7 +109,6 @@ export default function SideBarChat({ user }) {
                 <h2>A</h2>
               </header>
               {user.username}
-              <img src={user.imageUrl} alt="" />
             </div>
             <Toaster
               position="top-center"
@@ -121,13 +122,14 @@ const SideBar = styled.div`
     height: 100vh;
     width:30vw;
     .brand{
-      border: 5px solid blue;
+      border: 1px solid blue;
       height:15%;
       display: flex;
       align-items: center;
+      justify-content: center;
       font-size: larger;
       .logo-container{
-        border: 5px solid yellow;
+        /* border: 5px solid yellow; */
         width:35%;
         height: 100%;
         position: relative;
@@ -145,7 +147,7 @@ const SideBar = styled.div`
     }
     .search-bar-container{
       position: relative;
-      border: 5px solid green;
+      border: 1px solid green;
       height: 10%;
       display: flex;
       align-items: center;
@@ -175,10 +177,11 @@ const SideBar = styled.div`
       }   
     }
     .contacts{
-      border: 5px solid red;
+      border: 1px solid red;
       height:75%;
       header{
         display: flex;
+        border: 1px solid black;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
