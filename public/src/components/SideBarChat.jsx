@@ -12,7 +12,7 @@ export default function SideBarChat({ user }) {
   const [loading,setLoading] = useState(false)
   const [loadingChat,setLoadingChat] = useState(false)
   const [selectedChat, setSelectedChat] = useState(null);
-
+  console.log(searchResult)
   const handleSearch = async () => {
     if (!search.trim()) {
         setSearchResult([]); 
@@ -82,16 +82,32 @@ export default function SideBarChat({ user }) {
               />
               {searchResult.length > 0 && (
                 <Dropdown>
-                  {searchResult.map((result, index) => (
+                  {/* {searchResult.map((result, index) => (
                     <div key={index} className="search-result-item" onClick={()=>accessChat(user._id)}>
                       {result.username}
                     </div>
-                  ))}
+                  ))} */}
+                  {
+                    searchResult.map((result,index)=>(
+                      <UserCard key={index}>
+                        <img src={result.avatarImage} alt="" />
+                        <div className="userInfo">
+                          <h3>{result.username}</h3>
+                          <p>last message</p>
+                        </div>
+                      </UserCard>
+                    ))
+                  }
                 </Dropdown>
               )}
             </div>
             <div className="contacts">
+              <header>
+                <h2>My Chats</h2>
+                <h2>A</h2>
+              </header>
               {user.username}
+              <img src={user.imageUrl} alt="" />
             </div>
             <Toaster
               position="top-center"
@@ -161,6 +177,15 @@ const SideBar = styled.div`
     .contacts{
       border: 5px solid red;
       height:75%;
+      header{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header *{
+        padding: 12px 15px;
+      }
     }
 `
 
@@ -184,3 +209,39 @@ const Dropdown = styled.div`
   }
 `;
 
+const UserCard = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #e5e5e5;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f6f6f6;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; // makes it circular
+    object-fit: cover;  // ensures the image scales properly
+    margin-right: 12px;
+  }
+
+  .userInfo {
+    flex: 1;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #777;
+    }
+  }
+`;

@@ -26,7 +26,7 @@ export default function Chat() {
     <Container>
       {/* <SideBar user={user}/> */}
       {user && <SideBar user = {user}/>}
-      <ChatBox/>
+      <ChatBox user = {user}/>
     </Container>
   )
 }

@@ -4,8 +4,6 @@ import Logo from '../assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { registerRoute } from '../utils/APIRoutes'
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../assets/Infinity.gif'
 
@@ -16,7 +14,8 @@ export default function Register() {
     username:"",
     email:"",
     password:"",
-    confirmPassword:""
+    confirmPassword:"",
+    avatarImage:null
   })
 
   const [errors,setErrors] = useState({})
@@ -54,21 +53,29 @@ export default function Register() {
     e.preventDefault()
     if(handleValidation()){
         setIsLoading(true);
-        const { email, username, password } = values;
 
-        const request = axios.post(registerRoute, { email, username, password });
-        const delay = new Promise((resolve) => setTimeout(resolve, 1000));
-
-        const [{ data }] = await Promise.all([request, delay]);
-
-        setIsLoading(false);
-        if(data.status === false){
-            toast.error(data.msg)
+        const formData = new FormData();
+        formData.append('username',values.username)
+        formData.append('email',values.email)
+        formData.append('password',values.password)
+        if(values.avatarImage){
+          formData.append('avatarImage',values.avatarImage)
         }
-        if(data.status === true){
-            localStorage.setItem('ChatterSphere-user',JSON.stringify(data.user))
-            navigate("/")
+        try{
+          const { data } = await axios.post(registerRoute,formData)
+          setIsLoading(false);
+          if (data.status === false) {
+            toast.error(data.msg);
+          }
+          if (data.status === true) {
+            localStorage.setItem('ChatterSphere-user', JSON.stringify(data.returnUser));
+            navigate('/');
+          }
+        }catch(error){
+          setIsLoading(false);
+          toast.error("Registration Failed")
         }
+        setIsLoading(false)
     }
 }
 
@@ -105,12 +112,18 @@ export default function Register() {
   }
   
   const handleChange = (e) =>{
-    setValues({
-      ...values,
-      [e.target.name]:e.target.value,
-    })
+    if(e.target.name === 'avatarImage'){
+      setValues(
+        {...values,avatarImage:e.target.files[0]}
+      )
+    }else{
+      setValues({
+        ...values,
+        [e.target.name]:e.target.value,
+      })
+    }
+    
   }
-  console.log(errors)
   return (
     <>
       <FormContainer>
@@ -122,7 +135,7 @@ export default function Register() {
             </div>
           </div>
           <div className="right">
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)} encType='multipart/form-data'>
               <div className="heading">
                 <h2>Register Yourself</h2>
               </div>
@@ -161,6 +174,14 @@ export default function Register() {
                   onChange={(e) => handleChange(e)}
                 />
                 {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+              </div>
+              <div className="img-upload">
+                <input
+                  type='file'
+                  name='avatarImage'
+                  accept='image/*'
+                  onChange={(e)=>handleChange(e)}
+                />
               </div>
               <button type='submit'>
                 Create Account

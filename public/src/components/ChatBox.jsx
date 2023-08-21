@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { styled } from 'styled-components'
+import TopBar from './TopBar'
 
 export default function ChatBox() {
   const [ loggedUser,setLoggedUser ] = useState()
-  
+
   return (
     <Box>
-        
+        <TopBar/>
     </Box>
   )
 }

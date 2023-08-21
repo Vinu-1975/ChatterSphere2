@@ -58,7 +58,7 @@ const handleSubmit = async (e) => {
         const [{ data }] = await Promise.all([request, delay]);
 
         setIsLoading(false);
-        console.log(data)
+        // console.log(data)
         if(data.status === false){
             toast.error(data.msg)
         }

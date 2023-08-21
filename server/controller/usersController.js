@@ -1,6 +1,14 @@
 const generateToken = require('../config/generateToken')
 const User = require('../model/userModel')
 const bcrypt = require('bcrypt')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+    cloud_name: 'dux8bgl5g',
+    api_key: '318481684521768',
+    api_secret: 'sw4CtXe5NuVXxqNQjS1sejIRBZY',
+    secure: true,
+});
 
 module.exports.allUsers = async(req, res) => {
     try {
@@ -35,18 +43,35 @@ module.exports.register = async (req,res,next) => {
         if(emailCheck) return res.json({msg:"Email already exist",status:false})
 
         const hashedPassword = await bcrypt.hash(password,10)
+        if(!req.file){
+            console.log('No file received')
+            return res.status(400).send("No file received")
+        }
+        const mime = req.file.mimetype
+        const base64 = req.file.buffer.toString('base64')
+        const base64URL = `data:${mime};base64,${base64}`
+        const result = await cloudinary.uploader.upload(base64URL,
+            {
+                public_id:`${req.body.username}`,
+                // upload_preset:'chat-app'
+            })
         const user = await User.create({
             username,
             email,
-            password:hashedPassword
+            password:hashedPassword,
+            avatarImage:result.url
         })
+        
+        
+        // console.log(result)
         returnUser = {
             _id:user._id,
             username:user.username,
             email:user.email,
+            imageUrl:result.url,
             token:generateToken(user._id)
         }
-        console.log(returnUser)
+        // console.log(returnUser)
         delete user.password
         res.status(201).json({status:true,returnUser})
     }catch(ex){
@@ -69,6 +94,7 @@ module.exports.login = async (req,res,next) => {
             _id:user._id,
             username:user.username,
             email:user.email,
+            imageUrl:user.avatarImage,
             token:generateToken(user._id)
         }
         return res.json({status:true,returnUser})

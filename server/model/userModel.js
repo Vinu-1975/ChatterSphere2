@@ -19,8 +19,14 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         min:8,
+    },
+    avatarImage:{
+        type: String,
+        required: true,
+        default:
+          "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     }
 })
 
-User = mongoose.model("User",userSchema)
+const User = mongoose.model("User",userSchema)
 module.exports = User
