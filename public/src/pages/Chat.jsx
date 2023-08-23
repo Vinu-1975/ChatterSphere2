@@ -9,6 +9,13 @@ export default function Chat() {
   const navigate = useNavigate()
   const [user,setUser] = useState(null)
 
+  const [search,setSearch] = useState("")
+  const [searchResult,setSearchResult] = useState([])
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [chats,setChats] = useState([])
+
+  
+
   useEffect(() => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('ChatterSphere-user'));
@@ -26,8 +33,24 @@ export default function Chat() {
   return (
     <Container>
       {user && <TopBar user = {user}/>}
-      {user && <SideBar user = {user}/>}
-      <ChatBox user = {user}/>
+      {user && <SideBar 
+        user = {user}
+        search = {search}
+        setSearch={setSearch}
+        searchResult={searchResult}
+        setSearchResult={setSearchResult}
+        selectedChat={selectedChat}
+        setSelectedChat={setSelectedChat}
+        chats={chats}
+        setChats={setChats}
+      />}
+      {user && <ChatBox 
+        user = {user}
+        selectedChat={selectedChat}
+        setSelectedChat={setSelectedChat}
+        chats={chats}
+        setChats={setChats}
+        />}
     </Container>
   )
 }

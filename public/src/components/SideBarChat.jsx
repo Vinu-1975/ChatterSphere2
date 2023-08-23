@@ -4,15 +4,12 @@ import Logo from '../assets/logo.png'
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { allUsers, createChat } from '../utils/APIRoutes';
+import MyChats from './MyChats';
 
-export default function SideBarChat({ user }) {
+export default function SideBarChat({ user,search,setSearch,searchResult,setSearchResult,selectedChat, setSelectedChat,chats,setChats }) {
 
-  const [search,setSearch] = useState("")
-  const [searchResult,setSearchResult] = useState([])
   const [loading,setLoading] = useState(false)
   const [loadingChat,setLoadingChat] = useState(false)
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [chats,setChats] = useState(null)
  
   const handleSearch = async () => {
     if (!search.trim()) {
@@ -52,7 +49,7 @@ export default function SideBarChat({ user }) {
         }
       }
       const { data } = await axios.post(createChat,{userId},config);
-      // if(!chats.find((c)=> c._id === data._id)) setChats([data,...chats])
+      if(!chats.find((c)=> c._id === data._id)) setChats([data,...chats])
       console.log(data)
       setSelectedChat(data)
       setLoadingChat(false)
@@ -91,7 +88,7 @@ export default function SideBarChat({ user }) {
                   ))} */}
                   {
                     searchResult.map((result,index)=>(
-                      <UserCard key={index} onClick={()=>accessChat(user._id)}>
+                      <UserCard key={index} onClick={()=>accessChat(result._id)}>
                         <img src={result.avatarImage} alt="" />
                         <div className="userInfo">
                           <h3>{result.username}</h3>
@@ -103,13 +100,21 @@ export default function SideBarChat({ user }) {
                 </Dropdown>
               )}
             </div>
-            <div className="contacts">
+            {/* <div className="contacts">
               <header>
                 <h2>My Chats</h2>
                 <h2>A</h2>
               </header>
               {user.username}
-            </div>
+            </div> */}
+            <MyChats
+              user = {user}
+              selectedChat={selectedChat}
+              setSelectedChat={setSelectedChat}
+              chats = {chats}
+              setChats={setChats}
+            />
+
             <Toaster
               position="top-center"
               reverseOrder={false}
