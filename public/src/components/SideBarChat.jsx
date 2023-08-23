@@ -199,11 +199,11 @@ const SideBar = styled.div`
 
 const Dropdown = styled.div`
   position: absolute;
-  top: 100%;  // Position it right below the search-bar-container
-  width: 90%; // To match the width of the searchbox
-  max-height: 200px; // Set a max height and overflow-y to make it scrollable if results are too many
+  top: 100%;
+  width: 90%;
+  max-height: 200px; 
   overflow-y: auto;
-  z-index: 10;  // Ensuring it overlays on top of the contacts div
+  z-index: 10;  
   background-color: #fff;
   border: 1px solid #c4c4c4;
   border-radius: 8px;
