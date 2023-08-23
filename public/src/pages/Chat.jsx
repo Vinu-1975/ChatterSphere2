@@ -45,11 +45,11 @@ export default function Chat() {
         setChats={setChats}
       />}
       {user && <ChatBox 
-        user = {user}
-        selectedChat={selectedChat}
-        setSelectedChat={setSelectedChat}
-        chats={chats}
-        setChats={setChats}
+        // user = {user}
+        // selectedChat={selectedChat}
+        // setSelectedChat={setSelectedChat}
+        // chats={chats}
+        // setChats={setChats}
         />}
     </Container>
   )

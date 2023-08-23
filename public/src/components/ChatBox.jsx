@@ -5,7 +5,7 @@ import { styled } from 'styled-components'
 import { fetchChatsRoute } from '../utils/APIRoutes'
 // import TopBar from './TopBar'
 
-export default function ChatBox({user,selectedChat,setSelectedChat,chats,setChats}) {
+export default function ChatBox() {
   
   // const [ loggedUser,setLoggedUser ] = useState(null)
   // const fetchChats = async()=>{
