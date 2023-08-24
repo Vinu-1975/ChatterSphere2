@@ -93,7 +93,7 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
                   setSearch(e.target.value);
                   handleSearch()
                 }}
-              />
+                />
               {searchResult.length > 0 && (
                 <Dropdown ref = {dropdownRef}>
                   {/* {searchResult.map((result, index) => (
