@@ -1,21 +1,104 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'styled-components';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+import { allUsers } from '../../utils/APIRoutes';
+import UserCard from './UserCard';
+export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chats,setChats }) {
+    
+    const [groupChatName,setGroupChatName] = useState('')
+    const [selectedUsers,setSelectedUsers] = useState([])
+    const [search,setSearch] = useState('')
+    const [searchResult,setSearchResult] = useState([])
+    const [loading,setLoading] = useState(false)
 
-export default function GroupChatModal({ isOpen,handleClose,handleSave }) {
-  if (!isOpen) return null;
+    function debounce(func, wait) {
+      let timeout;
+      const debounced = function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
 
+      debounced.clear = () => clearTimeout(timeout);
+
+      return debounced;
+    }
+    
+    const handleSearch = async (query) => {
+        setSearch(query)
+        if(!query || query.length < 3){
+            setSearchResult([])
+            return
+        }
+        try{
+            setLoading(true);
+            const config = {
+                headers: {
+                    Authorization : `Bearer ${user.token}`
+                }
+            }
+            const { data } = await axios.get(`${allUsers}?search=${search}`,config)
+            console.log(data)
+            setLoading(false)
+            setSearchResult(data)
+        }catch(error){
+            setLoading(false)
+            toast.error('Error Occurred! Failed to load the chats')
+        }
+    }
+
+    const handleSubmit = () => {
+
+    }
+
+    const handleGroup = () => {
+
+    }
+
+    if (!isOpen) return null;
     return (
         <ModalWrapper>
             <ModalContent>
                 <h2>Create Group Chat</h2>
-                <label>
-                    Group Name:
-                    <input type="text" placeholder="Enter group name" />
-                </label>
-                <div>
-                    <button onClick={handleClose}>Cancel</button>
-                    <button onClick={handleSave}>Save</button>
-                </div>
+                <form>
+                    <div className="input-wrapper">
+                        <input 
+                           type="text" 
+                           placeholder="Enter group name" 
+                           value={groupChatName}
+                           name='groupName'
+                           onChange={e => setGroupChatName(e.target.value)}
+                        />
+                    </div>
+                    <div className="input-wrapper">
+                        <input 
+                           type="text" 
+                           placeholder='Add Users' 
+                           value={search}
+                           name='search'
+                           onChange={e => handleSearch(e.target.value)}
+                        />
+                    </div>
+                    <div className="user-list">
+                        {
+                        loading?<div>loading</div>:(
+                            searchResult?.slice(0,4).map(user => (
+                                // <div key={user._id} onClick={() => handleGroup(user)}></div>
+                                <UserCard
+                                    key={user._id}
+                                    user={user}
+                                    onClick={() => handleGroup(user)}
+                                />
+                            ))
+                        )
+                        }
+                    </div>
+                    <div className="buttons">
+                        <button onClick={handleClose}>Cancel</button>
+                        <button className="save-btn" onClick={handleSave}>Save</button>
+                    </div>
+                </form>
             </ModalContent>
         </ModalWrapper>
     );
@@ -48,5 +131,48 @@ const ModalContent = styled.div`
 
     button {
         margin-top: 10px;
+    }
+    .input-wrapper {
+        margin-bottom: 15px;
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.2s;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        button:hover {
+            background-color: #007BFF;
+            color: #ffffff;
+        }
+
+        .save-btn {
+            background-color: #007BFF;
+            color: #ffffff;
+        }
+
+        .save-btn:hover {
+            background-color: #0056b3;
+        }
     }
 `;

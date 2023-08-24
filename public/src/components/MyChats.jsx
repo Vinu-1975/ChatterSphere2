@@ -54,6 +54,9 @@ export default function MyChats({user,selectedChat,setSelectedChat,chats,setChat
               isOpen={isModalOpen}
               handleClose={closeModal}
               handleSave={saveGroupChat}
+              user={user}
+              chats={chats}
+              setChats={setChats}
             />
         </header>
           {/* {chats ? (
