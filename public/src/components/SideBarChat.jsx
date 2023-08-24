@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import  styled  from 'styled-components'
 import Logo from '../assets/logo.png'
 import toast, { Toaster } from 'react-hot-toast';
@@ -10,6 +10,21 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
 
   const [loading,setLoading] = useState(false)
   const [loadingChat,setLoadingChat] = useState(false)
+
+  const dropdownRef = useRef(null)
+  
+
+  useEffect(()=>{
+    function handleClickOutside(e){
+      if(dropdownRef.current && !dropdownRef.current.contains(e.target)){
+        setSearchResult([])
+      }
+    }
+    document.addEventListener('mousedown',handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown',handleClickOutside)
+    }
+  },[])
  
   const handleSearch = async () => {
     if (!search.trim()) {
@@ -48,13 +63,19 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
           Authorization: `Bearer ${user.token}`
         }
       }
+      console.log('1');
       const { data } = await axios.post(createChat,{userId},config);
+      console.log('2')
       if(!chats.find((c)=> c._id === data._id)) setChats([data,...chats])
       console.log(data)
+      
       setSelectedChat(data)
+      console.log('3')
       setLoadingChat(false)
-      onclose()
+      console.log('4')
+      console.log('5')
     }catch(error){
+      console.log("errrrr")
       toast.error("Error fetching the chat")
     }
   }
@@ -80,7 +101,7 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
                 }}
               />
               {searchResult.length > 0 && (
-                <Dropdown>
+                <Dropdown ref = {dropdownRef}>
                   {/* {searchResult.map((result, index) => (
                     <div key={index} className="search-result-item" onClick={()=>accessChat(user._id)}>
                       {result.username}
