@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { allUsers, createChat } from '../utils/APIRoutes';
 import MyChats from './MyChats';
+import UserCard from './miscellaneous/UserCard';
 
 export default function SideBarChat({ user,search,setSearch,searchResult,setSearchResult,selectedChat, setSelectedChat,chats,setChats }) {
 
@@ -63,19 +64,12 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
           Authorization: `Bearer ${user.token}`
         }
       }
-      console.log('1');
       const { data } = await axios.post(createChat,{userId},config);
-      console.log('2')
       if(!chats.find((c)=> c._id === data._id)) setChats([data,...chats])
       console.log(data)
-      
       setSelectedChat(data)
-      console.log('3')
       setLoadingChat(false)
-      console.log('4')
-      console.log('5')
     }catch(error){
-      console.log("errrrr")
       toast.error("Error fetching the chat")
     }
   }
@@ -108,14 +102,12 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
                     </div>
                   ))} */}
                   {
-                    searchResult.map((result,index)=>(
-                      <UserCard key={index} onClick={()=>accessChat(result._id)}>
-                        <img src={result.avatarImage} alt="" />
-                        <div className="userInfo">
-                          <h3>{result.username}</h3>
-                          <p>last message</p>
-                        </div>
-                      </UserCard>
+                    searchResult.map((user,index)=>(
+                      <UserCard
+                        key={index}
+                        user={user}
+                        onClick={()=> accessChat(user._id)}
+                      />
                     ))
                   }
                 </Dropdown>
@@ -238,39 +230,3 @@ const Dropdown = styled.div`
   }
 `;
 
-const UserCard = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #e5e5e5;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #f6f6f6;
-  }
-
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%; // makes it circular
-    object-fit: cover;  // ensures the image scales properly
-    margin-right: 12px;
-  }
-
-  .userInfo {
-    flex: 1;
-
-    h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-    }
-
-    p {
-      margin: 4px 0 0;
-      font-size: 14px;
-      color: #777;
-    }
-  }
-`;
