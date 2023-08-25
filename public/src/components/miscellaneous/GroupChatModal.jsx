@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { styled } from 'styled-components';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-import { allUsers } from '../../utils/APIRoutes';
+import { allUsers, createGroup } from '../../utils/APIRoutes';
 import UserCard from './UserCard';
+import UserBadge from './UserBadge';
 export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chats,setChats }) {
     
     const [groupChatName,setGroupChatName] = useState('')
@@ -39,7 +40,7 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                 }
             }
             const { data } = await axios.get(`${allUsers}?search=${search}`,config)
-            console.log(data)
+            // console.log(data)
             setLoading(false)
             setSearchResult(data)
         }catch(error){
@@ -48,12 +49,43 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
         }
     }
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log('1')
+        if(!groupChatName || !selectedUsers){
+            toast.error("Please fill all the fields")
+        }
+        console.log('2')
+        try{
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            }
+            const { data } = await axios.post(createGroup,{
+                name:groupChatName,
+                users:JSON.stringify(selectedUsers.map((u)=>u._id))
+            },
+            config
+            )
+            console.log('3')
+            console.log(data)
+            setChats([data,...chats])
+            toast.success("New Group Chat Created")
+        }catch(error){
+            toast.error("Failed to Create Group Chat")
+        }
     }
 
-    const handleGroup = () => {
+    const handleGroup = (userToAdd) => {
+        if(selectedUsers.includes(userToAdd)){
+            toast.error("User already added")
+        }
+        setSelectedUsers([...selectedUsers,userToAdd])
+    }
 
+    const handleDelete = (delUser) => {
+        setSelectedUsers(selectedUsers.filter(sel => sel._id !== delUser._id))
     }
 
     if (!isOpen) return null;
@@ -80,6 +112,15 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                            onChange={e => handleSearch(e.target.value)}
                         />
                     </div>
+                    <div className="added-users">
+                        {selectedUsers.map(user => (
+                            <UserBadge
+                                key={user._id}
+                                user = { user }
+                                handleFunction={()=>handleDelete(user)}
+                            />
+                        ))}
+                    </div>
                     <div className="user-list">
                         {
                         loading?<div>loading</div>:(
@@ -96,7 +137,7 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                     </div>
                     <div className="buttons">
                         <button onClick={handleClose}>Cancel</button>
-                        <button className="save-btn" onClick={handleSave}>Save</button>
+                        <button className="save-btn" onClick={(e) => handleSubmit(e)}>Create</button>
                     </div>
                 </form>
             </ModalContent>
@@ -125,6 +166,13 @@ const ModalContent = styled.div`
     display: flex;
     flex-direction: column;
 
+    .added-users{
+        display: flex;
+        flex-direction: row;
+        align-items:center;
+        justify-content: space-around;
+        flex-wrap:wrap
+    }
     label {
         margin-bottom: 10px;
     }
