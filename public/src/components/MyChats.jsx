@@ -77,7 +77,7 @@ export default function MyChats({user,selectedChat,setSelectedChat,chats,setChat
                       <div key={chat._id} onClick={() => setSelectedChat(chat)}>
                           {!chat.isGroupChat ? 
                               (<SenderCard sender={getSender(loggedUser, chat.users)} />) : 
-                              (<SenderCard sender={chat.chatName}/>)
+                              (<SenderCard sender={chat}/>)
                           }
                       </div>
                   ))

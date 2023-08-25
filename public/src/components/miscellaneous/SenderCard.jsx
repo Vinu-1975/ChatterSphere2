@@ -7,7 +7,7 @@ export default function SenderCard({ sender }) {
             {/* <div className="padding-provider"> */}
                 <img src={sender.avatarImage} alt={`${sender.username}'s avatar`} className="avatar" />
                 <div className="sender-details">
-                    <h4>{sender.username}</h4>
+                    <h4>{sender.isGroupChat?sender.chatName:sender.username}</h4>
                     <p>{`Last Message`}</p>
                 </div>
             {/* </div> */}
