@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast'
 import { styled } from 'styled-components'
 import TopBar from './miscellaneous/TopBar'
 import MessageBox from './miscellaneous/MessageBox'
+import MessageInput from './miscellaneous/MessageInput'
 
 export default function ChatBox({ fetchAgain,setFetchAgain,selectedChat,user }) {
 
@@ -13,6 +14,7 @@ export default function ChatBox({ fetchAgain,setFetchAgain,selectedChat,user }) 
           <>
             <TopBar user={user} selectedChat={selectedChat}/>
             <MessageBox/>
+            <MessageInput/>
           </>
         ):(
           <EmptyChatContainer>

@@ -39,8 +39,8 @@ const StyledTopBar = styled.div`
         align-items: center;
         justify-content: space-between;
         img{
-            width:60px;
-            height:60px;
+            width:2.9rem;
+            height:2.9rem;
             border-radius: 50%;
             object-fit: cover;
             margin:0 25px 0 0;
@@ -48,8 +48,8 @@ const StyledTopBar = styled.div`
     }
     .user-setting-icon{
         img{
-            width:50px;
-            height:50px;
+            width:2.5rem;
+            height:2.5rem;
             border-radius: 20%;
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }

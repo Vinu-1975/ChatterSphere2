@@ -113,13 +113,6 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
                 </Dropdown>
               )}
             </div>
-            {/* <div className="contacts">
-              <header>
-                <h2>My Chats</h2>
-                <h2>A</h2>
-              </header>
-              {user.username}
-            </div> */}
             <MyChats
               user = {user}
               selectedChat={selectedChat}
@@ -158,9 +151,12 @@ const SideBar = styled.div`
       
       #logo{
         position: absolute;
-        height: 22rem;
-        top:-120px;
-        left:-20px;
+        height: 15rem;
+        /* top:-120px;
+        left:-20px; */
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
       }
     }
     .search-bar-container{
