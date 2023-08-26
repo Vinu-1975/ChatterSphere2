@@ -1,7 +1,9 @@
 import React from 'react'
 import { styled } from 'styled-components'
 import { getSender } from '../../config/ChatLogics'
-import ThreeBars from '../../assets/ThreeBars.png'
+// import ThreeBars from '../../assets/ThreeBars.png'
+import Lottie from 'lottie-react'
+import menuIcon from '../../assets/menu-nav-icon.json'
 export default function TopBar({ user,selectedChat }) {
 
     const sender = getSender(user,selectedChat.users)
@@ -19,7 +21,11 @@ export default function TopBar({ user,selectedChat }) {
             }
         </div>
         <div className="user-setting-icon">
-            <img src={ThreeBars} alt="" />
+            {/* <img src={ThreeBars} alt="" /> */}
+            <Lottie 
+                animationData={menuIcon}
+                style={{ width: "50px", height: "50px" }}
+            />
         </div>
     </StyledTopBar>
   )

@@ -132,8 +132,9 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
 const SideBar = styled.div`
     height: 100vh;
     width:30vw;
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     .brand{
-      border: 1px solid blue;
+      /* border: 1px solid blue; */
       height:15%;
       display: flex;
       align-items: center;
@@ -161,7 +162,7 @@ const SideBar = styled.div`
     }
     .search-bar-container{
       position: relative;
-      border: 1px solid green;
+      /* border: 1px solid green; */
       height: 10%;
       display: flex;
       align-items: center;
