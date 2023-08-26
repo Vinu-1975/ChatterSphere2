@@ -8,6 +8,7 @@ import TopBar from '../components/SideBar'
 export default function Chat() {
   const navigate = useNavigate()
   const [user,setUser] = useState(null)
+  const [fetchAgain,setFetchAgain] = useState(false)
 
   const [search,setSearch] = useState("")
   const [searchResult,setSearchResult] = useState([])
@@ -45,8 +46,10 @@ export default function Chat() {
         setChats={setChats}
       />}
       {user && <ChatBox 
-        // user = {user}
-        // selectedChat={selectedChat}
+        user = {user}
+        fetchAgain={fetchAgain}
+        setFetchAgain={setFetchAgain}
+        selectedChat={selectedChat}
         // setSelectedChat={setSelectedChat}
         // chats={chats}
         // setChats={setChats}

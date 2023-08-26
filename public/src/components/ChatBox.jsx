@@ -1,42 +1,44 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { styled } from 'styled-components'
-import { fetchChatsRoute } from '../utils/APIRoutes'
-// import TopBar from './TopBar'
+import TopBar from './miscellaneous/TopBar'
+import MessageBox from './miscellaneous/MessageBox'
 
-export default function ChatBox() {
-  
-  // const [ loggedUser,setLoggedUser ] = useState(null)
-  // const fetchChats = async()=>{
-  //   try{
-  //     const config = {
-  //       headers:{
-  //         Authorization: `Bearer ${user.token}`
-  //       }
-  //     }
-  //     const { data } = await axios.get(fetchChatsRoute,config)
-  //     console.log(data)
-  //     setChats(data)
-  //   }catch(error){
-  //     toast.error("Error Occurred!")
-  //   }
-  // }
-
-  // useEffect(()=>{
-  //   setLoggedUser(JSON.parse(localStorage.getItem('ChatterSphere-user')))
-  //   fetchChats()
-  // },[])
+export default function ChatBox({ fetchAgain,setFetchAgain,selectedChat,user }) {
 
   return (
     <Box>
-        {/* <TopBar/> */}
+       {
+        selectedChat ? (
+          <>
+            <TopBar user={user} selectedChat={selectedChat}/>
+            <MessageBox/>
+          </>
+        ):(
+          <EmptyChatContainer>
+            <h1>Click on a user to start Chatting</h1>
+          </EmptyChatContainer>
+        )
+      }
     </Box>
   )
 }
 
 const Box = styled.div`
-    height:100vh;
-    width:70vw;
-    border: 5px solid blue;
+  height:100vh;
+  width:70vw;
 `
+
+const EmptyChatContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  // Takes full viewport height
+    background-color: #f6f8fa;
+    
+    h1 {
+        color: #5c7cfa;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+`;
