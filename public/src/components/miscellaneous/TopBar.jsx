@@ -6,16 +6,38 @@ import Lottie from 'lottie-react'
 import menuIcon from '../../assets/menu-nav-icon.json'
 export default function TopBar({ user,selectedChat }) {
 
+    let displayText = "";  // Text to display on the top bar
+
+    // Check if selectedChat is defined and has the required properties
+    if (selectedChat && selectedChat.users) {
+        // If it's a group chat, display the group name
+        if (selectedChat.isGroupChat) {
+            displayText = selectedChat.chatName;
+        } else {
+            const sender = getSender(user, selectedChat.users);
+            displayText = sender.username;
+        }
+    }
+    // console.log(selectedChat)
     const sender = getSender(user,selectedChat.users)
+    // console.log(sender)
 
   return (
     <StyledTopBar>
         <div className="user-details">
-            {
+            {/* {
                 sender && (
                     <>
                         <img src={sender.avatarImage} alt="" />
                         <h2>{sender.username}</h2>
+                    </>
+                )
+            } */}
+            {
+                displayText && (
+                    <>
+                        <img src={selectedChat.isGroupChat ? selectedChat.groupAvatar : getSender(user, selectedChat.users).avatarImage} alt="" />
+                        <h2>{displayText}</h2>
                     </>
                 )
             }
