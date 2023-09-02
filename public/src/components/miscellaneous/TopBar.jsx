@@ -4,7 +4,7 @@ import { getSender } from '../../config/ChatLogics'
 // import ThreeBars from '../../assets/ThreeBars.png'
 import Lottie from 'lottie-react'
 import menuIcon from '../../assets/menu-nav-icon.json'
-import GroupDetailsModal from './GroupDetailsModal'
+import GroupDetailsModal from './ChatDetailsModal'
 export default function TopBar({ user,selectedChat }) {
 
     let displayText = "";
