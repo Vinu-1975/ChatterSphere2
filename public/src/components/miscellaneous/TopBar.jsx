@@ -55,6 +55,7 @@ export default function TopBar({ user,selectedChat }) {
             isOpen={isModalOpen} 
             onClose={toggleModal} 
             chat={selectedChat}
+            user={user}
         />
     </StyledTopBar>
   )

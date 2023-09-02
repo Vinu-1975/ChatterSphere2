@@ -1,20 +1,31 @@
 import React from 'react'
 import { styled } from 'styled-components';
+import { getSender } from '../../config/ChatLogics';
 
-export default function GroupDetailsModal({ isOpen, onClose, chat }) {
+export default function GroupDetailsModal({ isOpen, onClose, chat, user  }) {
     if (!isOpen) return null;
+
+    let displayText = "";
+    if (chat && chat.users) {
+        if (chat.isGroupChat) {
+            displayText = chat.chatName;
+        } else {
+            const sender = getSender(user, chat.users);
+            displayText = sender.username;
+        }
+    }
 
     const handleBackdropClick = (e) => {
         if(e.target === e.currentTarget) onClose()
     }
-
+    console.log(chat)
     return (
         <ModalBackdrop onClick={handleBackdropClick}>
             <ModalContent>
-                <img src={chat.avatarImage} alt="Group Avatar" />
-                <h2>{chat.chatName}</h2>
+                <img src={chat.isGroupChat ? chat.avatarImage : getSender(user, chat.users).avatarImage} alt="Group Avatar" />
+                <h2>{displayText}</h2>
                 <ul>
-                    {chat.users.map(user => (
+                    {chat.isGroupChat && chat.users.map(user => (
                         <li key={user._id}>{user.username}</li>
                     ))}
                 </ul>
