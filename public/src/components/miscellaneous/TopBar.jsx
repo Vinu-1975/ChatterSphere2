@@ -36,7 +36,7 @@ export default function TopBar({ user,selectedChat }) {
             {
                 displayText && (
                     <>
-                        <img src={selectedChat.isGroupChat ? selectedChat.groupAvatar : getSender(user, selectedChat.users).avatarImage} alt="" />
+                        <img src={selectedChat.isGroupChat ? selectedChat.avatarImage : getSender(user, selectedChat.users).avatarImage} alt="" />
                         <h2>{displayText}</h2>
                     </>
                 )

@@ -8,23 +8,24 @@ import UserBadge from './UserBadge';
 export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chats,setChats }) {
     
     const [groupChatName,setGroupChatName] = useState('')
+    const [groupAvatar, setGroupAvatar ] = useState('')
     const [selectedUsers,setSelectedUsers] = useState([])
     const [search,setSearch] = useState('')
     const [searchResult,setSearchResult] = useState([])
     const [loading,setLoading] = useState(false)
 
-    function debounce(func, wait) {
-      let timeout;
-      const debounced = function(...args) {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), wait);
-      };
+    // function debounce(func, wait) {
+    //   let timeout;
+    //   const debounced = function(...args) {
+    //     const context = this;
+    //     clearTimeout(timeout);
+    //     timeout = setTimeout(() => func.apply(context, args), wait);
+    //   };
 
-      debounced.clear = () => clearTimeout(timeout);
+    //   debounced.clear = () => clearTimeout(timeout);
 
-      return debounced;
-    }
+    //   return debounced;
+    // }
     
     const handleSearch = async (query) => {
         setSearch(query)
@@ -51,29 +52,43 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('1')
         if(!groupChatName || !selectedUsers){
             toast.error("Please fill all the fields")
         }
-        console.log('2')
+
+        const formData = new FormData()
+        if(groupAvatar) formData.append('groupAvatarImage',groupAvatar)
+        formData.append('name',groupChatName)
+        formData.append('users',JSON.stringify(selectedUsers.map((u)=>u._id)))
+        
         try{
             const config = {
                 headers: {
                     Authorization: `Bearer ${user.token}`
                 }
             }
-            const { data } = await axios.post(createGroup,{
-                name:groupChatName,
-                users:JSON.stringify(selectedUsers.map((u)=>u._id))
-            },
-            config
-            )
-            console.log('3')
-            console.log(data)
+            // const { data } = await axios.post(createGroup,{
+            //     name:groupChatName,
+            //     users:JSON.stringify(selectedUsers.map((u)=>u._id)),
+            //     groupAvatarImage:groupAvatar
+            // },
+            // config
+            // )
+            const { data } = await axios.post(createGroup, formData, config);
+            // console.log(data)
             setChats([data,...chats])
             toast.success("New Group Chat Created")
+            handleSave()
         }catch(error){
             toast.error("Failed to Create Group Chat")
+        }
+    }
+
+    const handleFileChange = (e) => {
+        console.log("hello")
+        if (e.target.files && e.target.files[0]){
+            const file = e.target.files[0]
+            setGroupAvatar(file)
         }
     }
 
@@ -94,6 +109,14 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
             <ModalContent>
                 <h2>Create Group Chat</h2>
                 <form>
+                    <div className="input-wrapper">
+                        <input 
+                            type='file'
+                            name='groupAvatarImage'
+                            accept='image/*'
+                            onChange={handleFileChange}
+                        />
+                    </div>
                     <div className="input-wrapper">
                         <input 
                            type="text" 

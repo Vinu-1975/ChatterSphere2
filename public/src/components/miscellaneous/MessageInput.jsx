@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Picker } from '@emoji-mart/react'
+import { data } from '@emoji-mart/data'
+
 
 export default function MessageInput() {
+
+  const [showEmojiPicker,setShowEmojiPicker] = useState(false)
+  const [message,setMessage] = useState("")
+
+  // const handleEmojiClick = (emoji) => {
+  //   // setMessage(prevState => prevState + emoji.native)
+  //   setShowEmojiPicker(false)
+  // }
+
   return (
     <StyledMessageInputContainer>
-      <EmojiPicker>😀</EmojiPicker>
-      <StyledInput placeholder="Type a message..." />
+      {/* {showEmojiPicker && <Picker data={data} onEmojiSelect={handleEmojiClick}/>} */}
+      <EmojiPicker onClick={()=>setShowEmojiPicker(!showEmojiPicker)}>😀</EmojiPicker>
+      <StyledInput 
+        placeholder="Type a message..." 
+        value={message}
+        onChange={(e)=>setMessage(e.target.value)}
+      />
       <SendButton>↗</SendButton>
     </StyledMessageInputContainer>
   );
