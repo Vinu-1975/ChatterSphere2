@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'styled-components'
 import { getSender } from '../../config/ChatLogics'
 // import ThreeBars from '../../assets/ThreeBars.png'
 import Lottie from 'lottie-react'
 import menuIcon from '../../assets/menu-nav-icon.json'
+import GroupDetailsModal from './GroupDetailsModal'
 export default function TopBar({ user,selectedChat }) {
 
-    let displayText = "";  // Text to display on the top bar
-
-    // Check if selectedChat is defined and has the required properties
+    let displayText = "";
     if (selectedChat && selectedChat.users) {
-        // If it's a group chat, display the group name
         if (selectedChat.isGroupChat) {
             displayText = selectedChat.chatName;
         } else {
@@ -18,10 +16,13 @@ export default function TopBar({ user,selectedChat }) {
             displayText = sender.username;
         }
     }
-    // console.log(selectedChat)
-    const sender = getSender(user,selectedChat.users)
-    // console.log(sender)
+    // const sender = getSender(user,selectedChat.users)
 
+    const [isModalOpen,setIsModalOpen] = useState(false)
+
+    const toggleModal = () => {
+        setIsModalOpen(prev => !prev);
+    }
   return (
     <StyledTopBar>
         <div className="user-details">
@@ -47,8 +48,14 @@ export default function TopBar({ user,selectedChat }) {
             <Lottie 
                 animationData={menuIcon}
                 style={{ width: "50px", height: "50px" }}
+                onClick={toggleModal}
             />
         </div>
+        <GroupDetailsModal 
+            isOpen={isModalOpen} 
+            onClose={toggleModal} 
+            chat={selectedChat}
+        />
     </StyledTopBar>
   )
 }
