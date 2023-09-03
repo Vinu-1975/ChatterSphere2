@@ -5,3 +5,4 @@ export const allUsers = `${host}/api/auth`
 export const createChat = `${host}/api/chats`
 export const fetchChatsRoute = `${host}/api/chats`
 export const createGroup = `${host}/api/chats/group`
+export const renameGroup = `${host}/api/chats/rename`

@@ -5,6 +5,8 @@ import { getSender } from '../../config/ChatLogics'
 import Lottie from 'lottie-react'
 import menuIcon from '../../assets/menu-nav-icon.json'
 import GroupDetailsModal from './ChatDetailsModal'
+import UserDetailModal from './UserDetailModal'
+
 export default function TopBar({ user,selectedChat }) {
 
     let displayText = "";
@@ -51,12 +53,10 @@ export default function TopBar({ user,selectedChat }) {
                 onClick={toggleModal}
             />
         </div>
-        <GroupDetailsModal 
-            isOpen={isModalOpen} 
-            onClose={toggleModal} 
-            chat={selectedChat}
-            user={user}
-        />
+        {
+            selectedChat.isGroupChat? (<GroupDetailsModal isOpen={isModalOpen} onClose={toggleModal} chat={selectedChat} user={user}
+            />):(<UserDetailModal isOpen={isModalOpen} onClose={toggleModal} chat={selectedChat} user={user}/>)
+        }
     </StyledTopBar>
   )
 }

@@ -1,69 +1,52 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
-import { getSender } from '../../config/ChatLogics';
+import { renameGroup } from '../../utils/APIRoutes';
 
-export default function GroupDetailsModal({ isOpen, onClose, chat, user  }) {
-    const [ newGroupName, setNewGroupName ] = useState('')
+export default function GroupDetailsModal({ isOpen, onClose, chat }) {
+    const [newGroupName, setNewGroupName] = useState('');
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
-    
+
     if (!isOpen) return null;
 
-    const toggleRenameModal = (e) => {
-        // e.stopPropagation(); // Stop the event from bubbling up to the parent elements.
-        console.log("Toggle Rename Modal clicked!");
+    const toggleRenameModal = () => {
         setIsRenameModalOpen(prev => !prev);
-    }
+    };
 
     const handleRename = (newName) => {
-    // Here, make an API call to rename the group chat based on newName
-    // After successful renaming, close the modal
+        // Make an API call to rename the group chat based on newName
+        // After successful renaming, close the modal
         toggleRenameModal();
-    }
-
-
-    let displayText = "";
-    if (chat && chat.users) {
-        if (chat.isGroupChat) {
-            displayText = chat.chatName;
-        } else {
-            const sender = getSender(user, chat.users);
-            displayText = sender.username;
-        }
-    }
+    };
 
     const handleBackdropClick = (e) => {
-        if(e.target === e.currentTarget) onClose()
-    }
-    // console.log(chat)
+        if (e.target === e.currentTarget) onClose();
+    };
+
     return (
         <ModalBackdrop onClick={handleBackdropClick}>
             <ModalContent>
-                <img src={chat.isGroupChat ? chat.avatarImage : getSender(user, chat.users).avatarImage} alt="Group Avatar" />
+                <img src={chat.avatarImage} alt="Group Avatar" />
                 <div className="header-container">
-                    <h2>{displayText}</h2>
-                    {chat.isGroupChat && (
-                <>
+                    <h2>{chat.chatName}</h2>
                     <i className="fa-regular fa-pen-to-square" onClick={toggleRenameModal}></i>
-                    {isRenameModalOpen ? (
+                    {isRenameModalOpen && (
                         <RenameModalContent>
                             <h2>Rename Group</h2>
                             <input 
-                                type="text" 
+                                type="text"
                                 value={newGroupName}
                                 onChange={(e) => setNewGroupName(e.target.value)}
-                                placeholder="New Group Name" 
+                                placeholder="New Group Name"
                             />
                             <div className="button-group">
                                 <button onClick={() => handleRename(newGroupName)}>Rename</button>
                                 <button onClick={toggleRenameModal}>Cancel</button>
                             </div>
                         </RenameModalContent>
-                    ) : null}
-                </>
-            )}
+                    )}
                 </div>
                 <ul>
-                    {chat.isGroupChat && chat.users.map(user => (
+                    {chat.users.map(user => (
                         <li key={user._id}>{user.username}</li>
                     ))}
                 </ul>
@@ -72,6 +55,8 @@ export default function GroupDetailsModal({ isOpen, onClose, chat, user  }) {
         </ModalBackdrop>
     );
 }
+
+
 
 const ModalBackdrop = styled.div`
     position: fixed;
