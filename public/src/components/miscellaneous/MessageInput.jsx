@@ -2,29 +2,52 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Picker } from '@emoji-mart/react'
 import { data } from '@emoji-mart/data'
+import axios from 'axios';
+import { sendMessage } from '../../utils/APIRoutes';
 
 
-export default function MessageInput() {
+export default function MessageInput({ messages, setMessages,newMessage, setNewMessage, user, selectedChat }) {
 
   const [showEmojiPicker,setShowEmojiPicker] = useState(false)
   const [message,setMessage] = useState("")
 
-  // const handleEmojiClick = (emoji) => {
-  //   // setMessage(prevState => prevState + emoji.native)
-  //   setShowEmojiPicker(false)
-  // }
+ const sendMessage = async (event) => {
+  if(event.key==="Enter" && newMessage){
+    try{
+      const config = {
+        headers: {
+          "Content-Type":"application/json",
+          Authorization : `Bearer ${user.token}`
+        }
+      }
+      const { data } = await axios.post(sendMessage,{
+        content:newMessage,
+        chatId:selectedChat._id
+      },config)
+    }catch(error){
+
+    }
+  }
+ }
+
+ const typingHandler = (e) => {
+  setNewMessage(e.target.value)
+ }
 
   return (
     <StyledMessageInputContainer>
-      {/* {showEmojiPicker && <Picker data={data} onEmojiSelect={handleEmojiClick}/>} */}
-      <EmojiPicker onClick={()=>setShowEmojiPicker(!showEmojiPicker)}>😀</EmojiPicker>
-      <StyledInput 
-        placeholder="Type a message..." 
-        value={message}
-        onChange={(e)=>setMessage(e.target.value)}
-      />
-      <SendButton>↗</SendButton>
-    </StyledMessageInputContainer>
+            <form onKeyDown={sendMessage} style={{ display: 'flex', width: '100%' }}>
+                {/* {showEmojiPicker && <Picker data={data} onEmojiSelect={handleEmojiClick}/>} */}
+                <EmojiPicker onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😀</EmojiPicker>
+                <StyledInput 
+                  required
+                  placeholder="Type a message..." 
+                  value={newMessage}
+                  onChange={typingHandler}
+                />
+                <SendButton type="submit">↗</SendButton>
+            </form>
+        </StyledMessageInputContainer>
   );
 }
 

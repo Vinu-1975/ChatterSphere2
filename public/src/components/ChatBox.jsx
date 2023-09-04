@@ -7,6 +7,10 @@ import MessageInput from './miscellaneous/MessageInput'
 
 export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSelectedChat, user }) {
 
+  const [ messages, setMessages ] = useState([])
+  // const [ loading, setLoading ] = useState(false)
+  const [ newMessage, setNewMessage ] = useState()
+
   return (
     <Box>
        {
@@ -19,8 +23,20 @@ export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSe
               fetchAgain={fetchAgain}
               setFetchAgain={setFetchAgain}
             />
-            <MessageBox/>
-            <MessageInput/>
+            <MessageBox
+              messages={messages}
+              setMessage={setMessages}
+              newMessage={newMessage}
+              setNewMessage={setNewMessage}
+            />
+            <MessageInput
+              user={user}
+              selectedChat={selectedChat}
+              messages={messages}
+              setMessage={setMessages}
+              newMessage={newMessage}
+              setNewMessage={setNewMessage}
+            />
           </>
         ):(
           <EmptyChatContainer>

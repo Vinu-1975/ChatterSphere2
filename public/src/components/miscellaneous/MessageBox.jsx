@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'styled-components'
 
-export default function MessageBox() {
+export default function MessageBox({ messages, setMessages,newMessage, setNewMessage }) {
+
+  // const [ messages, setMessages ] = useState([])
+  const [ loading, setLoading ] = useState(false)
+  // const [ newMessage, setNewMessage ] = useState()
+
   return (
     <StyledMessageBox>
-        MessageBox
+      {
+        loading?(<div>Loading</div>)
+        :(
+          <div>
+            Messages
+          </div>
+        )
+      }
     </StyledMessageBox>
   )
 }
