@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { renameGroup } from '../../utils/APIRoutes';
-
-export default function GroupDetailsModal({ isOpen, onClose, chat }) {
+import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast';
+export default function GroupDetailsModal({ isOpen, onClose, chat, setChat, user, fetchAgain, setFetchAgain }) {
     const [newGroupName, setNewGroupName] = useState('');
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
@@ -12,10 +13,26 @@ export default function GroupDetailsModal({ isOpen, onClose, chat }) {
         setIsRenameModalOpen(prev => !prev);
     };
 
-    const handleRename = (newName) => {
-        // Make an API call to rename the group chat based on newName
-        // After successful renaming, close the modal
-        toggleRenameModal();
+    const handleRename = async (newName) => {
+        
+        if(newGroupName.length < 1) return
+        try{
+            const config = {
+                headers: {
+                    Authorization : `Bearer ${user.token}`
+                }
+            }
+            const { data } = await axios.put(renameGroup,{
+                chatId: chat._id,
+                chatName:newGroupName,
+            },config)
+            setChat(data)
+            setFetchAgain(!fetchAgain)
+            toggleRenameModal();
+        }catch(error){
+            toast.error('Error Occured!')
+        }
+        setNewGroupName('')
     };
 
     const handleBackdropClick = (e) => {

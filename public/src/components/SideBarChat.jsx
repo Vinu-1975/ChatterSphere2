@@ -7,7 +7,7 @@ import { allUsers, createChat } from '../utils/APIRoutes';
 import MyChats from './MyChats';
 import UserCard from './miscellaneous/UserCard';
 
-export default function SideBarChat({ user,search,setSearch,searchResult,setSearchResult,selectedChat, setSelectedChat,chats,setChats }) {
+export default function SideBarChat({ user,search,setSearch,searchResult,setSearchResult,selectedChat, setSelectedChat,chats,setChats,fetchAgain }) {
 
   const [loading,setLoading] = useState(false)
   const [loadingChat,setLoadingChat] = useState(false)
@@ -119,6 +119,7 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
               setSelectedChat={setSelectedChat}
               chats = {chats}
               setChats={setChats}
+              fetchAgain={fetchAgain}
             />
 
             <Toaster

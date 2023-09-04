@@ -8,7 +8,7 @@ import SenderCard from './miscellaneous/SenderCard';
 import GroupChatModal from './miscellaneous/GroupChatModal';
 import GroupIcon from '../assets/addGroupIcon.json'
 import Lottie from 'lottie-react'
-export default function MyChats({user,selectedChat,setSelectedChat,chats,setChats}) {
+export default function MyChats({user,selectedChat,setSelectedChat,chats,setChats,fetchAgain}) {
 
     const [isModalOpen,setIsModalOpen] = useState(false)
 
@@ -44,7 +44,7 @@ export default function MyChats({user,selectedChat,setSelectedChat,chats,setChat
     useEffect(()=>{
       setLoggedUser(prevUser => JSON.parse(localStorage.getItem('ChatterSphere-user')))
       fetchChats()
-    },[])
+    },[fetchAgain])
   return (
     <Container>
         <header>

@@ -44,13 +44,14 @@ export default function Chat() {
         setSelectedChat={setSelectedChat}
         chats={chats}
         setChats={setChats}
+        fetchAgain={fetchAgain}
       />}
       {user && <ChatBox 
         user = {user}
         fetchAgain={fetchAgain}
         setFetchAgain={setFetchAgain}
         selectedChat={selectedChat}
-        // setSelectedChat={setSelectedChat}
+        setSelectedChat={setSelectedChat}
         // chats={chats}
         // setChats={setChats}
         />}

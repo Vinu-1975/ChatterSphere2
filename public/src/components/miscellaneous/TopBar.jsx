@@ -4,10 +4,10 @@ import { getSender } from '../../config/ChatLogics'
 // import ThreeBars from '../../assets/ThreeBars.png'
 import Lottie from 'lottie-react'
 import menuIcon from '../../assets/menu-nav-icon.json'
-import GroupDetailsModal from './ChatDetailsModal'
+import GroupDetailsModal from './GroupDetailsModal'
 import UserDetailModal from './UserDetailModal'
 
-export default function TopBar({ user,selectedChat }) {
+export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, setSelectedChat }) {
 
     let displayText = "";
     if (selectedChat && selectedChat.users) {
@@ -54,7 +54,7 @@ export default function TopBar({ user,selectedChat }) {
             />
         </div>
         {
-            selectedChat.isGroupChat? (<GroupDetailsModal isOpen={isModalOpen} onClose={toggleModal} chat={selectedChat} user={user}
+            selectedChat.isGroupChat? (<GroupDetailsModal isOpen={isModalOpen} onClose={toggleModal} chat={selectedChat} user={user} setChat={setSelectedChat} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}
             />):(<UserDetailModal isOpen={isModalOpen} onClose={toggleModal} chat={selectedChat} user={user}/>)
         }
     </StyledTopBar>

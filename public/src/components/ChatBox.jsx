@@ -5,14 +5,20 @@ import TopBar from './miscellaneous/TopBar'
 import MessageBox from './miscellaneous/MessageBox'
 import MessageInput from './miscellaneous/MessageInput'
 
-export default function ChatBox({ fetchAgain,setFetchAgain,selectedChat,user }) {
+export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSelectedChat, user }) {
 
   return (
     <Box>
        {
         selectedChat ? (
           <>
-            <TopBar user={user} selectedChat={selectedChat}/>
+            <TopBar 
+              user={user} 
+              selectedChat={selectedChat} 
+              setSelectedChat={setSelectedChat} 
+              fetchAgain={fetchAgain}
+              setFetchAgain={setFetchAgain}
+            />
             <MessageBox/>
             <MessageInput/>
           </>
