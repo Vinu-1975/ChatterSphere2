@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Picker } from '@emoji-mart/react'
 import { data } from '@emoji-mart/data'
 import axios from 'axios';
-import { sendMessage } from '../../utils/APIRoutes';
-
+import { sendMessageRoute } from '../../utils/APIRoutes';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function MessageInput({ messages, setMessages,newMessage, setNewMessage, user, selectedChat }) {
 
@@ -12,20 +12,28 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
   const [message,setMessage] = useState("")
 
  const sendMessage = async (event) => {
-  if(event.key==="Enter" && newMessage){
+  event.preventDefault()
+  console.log("sendmessage")
+  // if(event.key==="Enter" && newMessage){
+  if(newMessage){
     try{
       const config = {
         headers: {
-          "Content-Type":"application/json",
+          "Content-type":"application/json",
           Authorization : `Bearer ${user.token}`
         }
       }
-      const { data } = await axios.post(sendMessage,{
-        content:newMessage,
-        chatId:selectedChat._id
+      console.log("hello1")
+      const { data } = await axios.post(sendMessageRoute,{
+        content: newMessage,
+        chatId: selectedChat._id
       },config)
+      console.log('hello2')
+      console.log(data)
+      setNewMessage('')
+      setMessages([...messages,data])
     }catch(error){
-
+      toast.error("Error Occurred!")
     }
   }
  }
@@ -36,7 +44,7 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
 
   return (
     <StyledMessageInputContainer>
-            <form onKeyDown={sendMessage} style={{ display: 'flex', width: '100%' }}>
+            <form onSubmit={sendMessage} style={{ display: 'flex', width: '100%' }}>
                 {/* {showEmojiPicker && <Picker data={data} onEmojiSelect={handleEmojiClick}/>} */}
                 <EmojiPicker onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😀</EmojiPicker>
                 <StyledInput 
@@ -44,6 +52,7 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
                   placeholder="Type a message..." 
                   value={newMessage}
                   onChange={typingHandler}
+                  // onKeyDown={sendMessage} 
                 />
                 <SendButton type="submit">↗</SendButton>
             </form>

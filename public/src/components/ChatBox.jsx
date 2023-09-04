@@ -9,7 +9,7 @@ export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSe
 
   const [ messages, setMessages ] = useState([])
   // const [ loading, setLoading ] = useState(false)
-  const [ newMessage, setNewMessage ] = useState()
+  const [ newMessage, setNewMessage ] = useState('')
 
   return (
     <Box>
@@ -24,8 +24,10 @@ export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSe
               setFetchAgain={setFetchAgain}
             />
             <MessageBox
+              user={user}
+              selectedChat={selectedChat}
               messages={messages}
-              setMessage={setMessages}
+              setMessages={setMessages}
               newMessage={newMessage}
               setNewMessage={setNewMessage}
             />

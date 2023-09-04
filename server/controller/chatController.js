@@ -11,7 +11,7 @@ cloudinary.config({
 
 
 module.exports.accessChat = async (req,res) => {
-    console.log("accessChat")
+    // console.log("accessChat")
     const { userId } = req.body
 
     if(!userId){
@@ -53,7 +53,7 @@ module.exports.accessChat = async (req,res) => {
 
 module.exports.fetchChats = async (req,res) => {
     try{
-        console.log("fetchChats");
+        // console.log("fetchChats");
         Chat.find({users:{$elemMatch:{$eq:req.user._id}}})
             .populate("users","-password")
             .populate("groupAdmin","-password")

@@ -6,4 +6,5 @@ export const createChat = `${host}/api/chats`
 export const fetchChatsRoute = `${host}/api/chats`
 export const createGroup = `${host}/api/chats/group`
 export const renameGroup = `${host}/api/chats/rename`
-export const sendMessage = `${host}/api/message`
+export const sendMessageRoute = `${host}/api/message`
+export const fetchMessagesRoute = `${host}/api/message`
