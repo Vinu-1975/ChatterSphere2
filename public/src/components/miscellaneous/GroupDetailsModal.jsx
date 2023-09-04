@@ -14,7 +14,10 @@ export default function GroupDetailsModal({ isOpen, onClose, chat, setChat, user
     };
 
     const handleRename = async (newName) => {
-        
+        if(chat.groupAdmin._id!== user._id){
+            toast.error("Only Admins can Make Changes!")
+            return
+        }
         if(newGroupName.length < 1) return
         try{
             const config = {
