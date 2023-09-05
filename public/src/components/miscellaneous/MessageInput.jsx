@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Picker } from '@emoji-mart/react'
-import { data } from '@emoji-mart/data'
+// import { Picker } from '@emoji-mart/react'
+// import { data } from '@emoji-mart/data'
 import axios from 'axios';
 import { sendMessageRoute } from '../../utils/APIRoutes';
 import toast, { Toaster } from 'react-hot-toast';
@@ -23,12 +23,10 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
           Authorization : `Bearer ${user.token}`
         }
       }
-      console.log("hello1")
       const { data } = await axios.post(sendMessageRoute,{
         content: newMessage,
         chatId: selectedChat._id
       },config)
-      console.log('hello2')
       console.log(data)
       setNewMessage('')
       setMessages([...messages,data])

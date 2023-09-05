@@ -122,6 +122,20 @@ const Container = styled.div`
     .chat-list{
       height:90%;
       /* padding:10px; */
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      scroll-behavior: smooth;
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      &::-webkit-scrollbar {
+          display: none;
+      }
+    
+      /* Hide scrollbar for Firefox */
+      scrollbar-width: none;
+    
+      /* Hide scrollbar for IE */
+      -ms-overflow-style: none;
       .sender-card{
         /* border: 1px solid black; */
         margin:10px;

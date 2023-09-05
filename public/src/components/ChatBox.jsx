@@ -35,7 +35,7 @@ export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSe
               user={user}
               selectedChat={selectedChat}
               messages={messages}
-              setMessage={setMessages}
+              setMessages={setMessages}
               newMessage={newMessage}
               setNewMessage={setNewMessage}
             />
