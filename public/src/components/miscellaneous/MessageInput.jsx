@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { Picker } from '@emoji-mart/react'
-// import { data } from '@emoji-mart/data'
 import axios from 'axios';
 import { sendMessageRoute } from '../../utils/APIRoutes';
 import toast, { Toaster } from 'react-hot-toast';
+import EmojiPicker,{
+  EmojiStyle,
+  SkinTones,
+  Theme,
+  Categories,
+  EmojiClickData,
+  Emoji,
+  SuggestionMode,
+  SkinTonePickerLocation
+} from 'emoji-picker-react'
 
 export default function MessageInput({ messages, setMessages,newMessage, setNewMessage, user, selectedChat }) {
 
-  const [showEmojiPicker,setShowEmojiPicker] = useState(false)
-  const [message,setMessage] = useState("")
+  const [ showEmojiPicker,setShowEmojiPicker ] = useState(false)
+  const [ selectedEmoji, setSelectedEmoji ] = useState("")
+  // const [ message,setMessage ] = useState("")
 
  const sendMessage = async (event) => {
   event.preventDefault()
@@ -43,8 +52,22 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
   return (
     <StyledMessageInputContainer>
             <form onSubmit={sendMessage} style={{ display: 'flex', width: '100%' }}>
-                {/* {showEmojiPicker && <Picker data={data} onEmojiSelect={handleEmojiClick}/>} */}
-                <EmojiPicker onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😀</EmojiPicker>
+                {
+                  showEmojiPicker && (
+                    <EmojiPickerWrapper>
+                      <EmojiPicker onEmojiClick={(emojiData)=>{
+                        setNewMessage(prevMessage => prevMessage + emojiData.emoji)
+                        setShowEmojiPicker(false)
+                      }}/>
+                    </EmojiPickerWrapper>
+                  )
+                }
+                <EmojiPickerButton 
+                type='button'
+                onClick={(e)=> {
+                  e.preventDefault()
+                  setShowEmojiPicker(!showEmojiPicker)
+                  }}>😀</EmojiPickerButton>
                 <StyledInput 
                   required
                   placeholder="Type a message..." 
@@ -57,6 +80,12 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
         </StyledMessageInputContainer>
   );
 }
+
+const EmojiPickerWrapper = styled.div`
+  position: absolute;  // To allow for z-index positioning
+  bottom: 50px;       // Adjust this value as needed to position the picker above the input
+  z-index: 2000;      // A high z-index value to ensure it's above everything else
+`;
 
 const StyledMessageInputContainer = styled.div`
   display: flex;
@@ -71,7 +100,7 @@ const StyledMessageInputContainer = styled.div`
   /* max-width: 600px; */
 `;
 
-const EmojiPicker = styled.button`
+const EmojiPickerButton = styled.button`
   background: none;
   border: none;
   font-size: 24px;
