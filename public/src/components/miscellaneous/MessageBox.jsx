@@ -49,7 +49,7 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
                   {
                     ((isSameSender(messages,m,i,user._id) || isLastMessage(messages,i,user._id))
                     && (
-                      <img className='msg-img' src={m.sender.imageUrl} alt='ProfilePic'></img>
+                      <img className='msg-img' src={m.sender.avatarImage} alt='ProfilePic'></img>
                     )
                     )
                   }
@@ -61,16 +61,16 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
                     marginRight: "10px",
                     marginLeft: isSameSenderMargin(messages, m, i, user._id),
                     marginTop: isSameUser(messages, m, i, user._id) ? 3: 10,
-                    fontSize: "16px",  // Increase font size for better readability
-                    lineHeight: "1.5",  // Increase line height for better readability
+                    fontSize: "16px",
+                    lineHeight: "1.5",
                     // position: "relative",  // Added to position the message tail
-                    wordBreak: "break-word",  // To ensure long strings/URLs don't break the design
-                    fontFamily: "Arial, sans-serif",  // To ensure consistent typography (you can use any font family you prefer)
-                    fontWeight: "400", // Regular font weight
-                    display: "inline-block", // Ensuring the tail aligns correctly
-                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)", // A subtle shadow for depth
-                    borderBottomRightRadius: m.sender._id === user._id ? "5px" : "20px", // Adjust the bottom right radius if the sender is the user
-                    borderBottomLeftRadius: m.sender._id !== user._id ? "5px" : "20px" // Adjust the bottom left radius if the sender is not the user
+                    wordBreak: "break-word",
+                    fontFamily: "Arial, sans-serif",
+                    fontWeight: "400",
+                    display: "inline-block",
+                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                    borderBottomRightRadius: m.sender._id === user._id ? "5px" : "20px",
+                    borderBottomLeftRadius: m.sender._id !== user._id ? "5px" : "20px"
                     }}>
                       {m.content}
                     <span style={{
@@ -84,7 +84,6 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
                       clipPath: m.sender._id !== user._id ? "polygon(100% 0, 0 0, 100% 100%)" : "polygon(0 0, 100% 0, 0 100%)"
                     }}></span>
                     </span>
-
                 </div>
               ))}
             </ScrollableFeed>
@@ -96,7 +95,6 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
 }
 
 const StyledMessageBox = styled.div`
-    /* border:1px solid black; */
     height:80%;
     width:100%;
     overflow-x:hidden;
