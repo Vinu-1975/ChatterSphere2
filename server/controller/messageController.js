@@ -17,12 +17,14 @@ module.exports.sendMessage = async(req,res) => {
     try{
         var message = await Message.create(newMessage)
         
-        message = await message.populate("sender","name pic")
+        message = await message.populate("sender","username avatarImage")
+        // message = await message.populate("sender","name pic")
         message = await message.populate("chat")
        
         message = await User.populate(message,{
             path:'chat.users',
-            select:'name pic email'
+            select:'username avatarImage email'
+            // select:'name pic email'
         })
         await Chat.findByIdAndUpdate(req.body.chatId,{
             latestMessage:message,
@@ -40,7 +42,8 @@ module.exports.allMessages = async(req,res)=>{
     
     try{
         const messages = await Message.find({chat:req.params.chatId})
-            .populate("sender","name pic email")
+            .populate("sender","username avatarImage email")
+            // .populate("sender","name pic email")
             .populate("chat")
         
         // console.log(messages)

@@ -28,7 +28,8 @@ module.exports.accessChat = async (req,res) => {
 
     isChat = await User.populate(isChat,{
         path:"latestMessage.sender",
-        select:"name pic email"
+        select:"username avatarImage email"
+        // select:"name pic email"
     })
     if(isChat.length>0){
         res.send(isChat[0])
@@ -62,7 +63,8 @@ module.exports.fetchChats = async (req,res) => {
             .then(async(result)=>{
                 result = await User.populate(result,{
                     path:"latestMessage.sender",
-                    select:"name pic email",
+                    select:"username avatarImage email",
+                    // select:"name pic email",
                 })
                 res.status(200).send(result)
             })

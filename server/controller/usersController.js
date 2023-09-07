@@ -47,6 +47,7 @@ module.exports.register = async (req,res,next) => {
             console.log('No file received')
             return res.status(400).send("No file received")
         }
+        console.log('h1')
         const mime = req.file.mimetype
         const base64 = req.file.buffer.toString('base64')
         const base64URL = `data:${mime};base64,${base64}`
@@ -55,6 +56,7 @@ module.exports.register = async (req,res,next) => {
                 public_id:`${req.body.username}`,
                 // upload_preset:'chat-app'
             })
+        console.log('h2')
         const user = await User.create({
             username,
             email,
