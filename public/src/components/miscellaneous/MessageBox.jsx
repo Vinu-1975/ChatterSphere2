@@ -5,12 +5,17 @@ import axios from 'axios';
 import { fetchMessagesRoute } from '../../utils/APIRoutes';
 import ScrollableFeed from 'react-scrollable-feed'
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from '../../config/ChatLogics';
+import io from 'socket.io-client'
+
+const ENDPOINT = 'http://localhost:5000'
+var socket, selectedChatCompare;
 
 export default function MessageBox({ user, selectedChat, messages, setMessages,newMessage, setNewMessage }) {
 
   // const [ messages, setMessages ] = useState([])
   const [ loading, setLoading ] = useState(false)
   // const [ newMessage, setNewMessage ] = useState()
+  const [ socketConnected, setSocketConnected ] = useState(false)
 
   const fetchMessages = async()=>{
     if(!selectedChat) return
@@ -26,6 +31,7 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
       setMessages(data)
       console.log(messages)
       setLoading(false)
+      socket.emit('join chat',selectedChat._id)
     }catch(error){
       toast.error("Error Occurred!!")
       setLoading(false)
@@ -34,8 +40,28 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
 
   useEffect(()=>{
     fetchMessages()
+
+    selectedChatCompare = selectedChat
   },[selectedChat])
-  console.log(messages)
+  // console.log(messages)
+
+  useEffect(()=>{
+    socket.on('message received',(newMessageReceived)=>{
+      if(!selectedChatCompare || selectedChatCompare._d !== newMessageReceived.chat._id){
+        //give notification
+      }else{
+        setMessages([...messages,newMessageReceived])
+      }
+    })
+  })
+
+  useEffect(()=>{
+    socket = io(ENDPOINT)
+    socket.emit('setup',user);
+    socket.on('connection',()=>{
+
+    })
+  },[])
 
   return (
     <StyledMessageBox>
