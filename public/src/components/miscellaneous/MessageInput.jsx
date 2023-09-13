@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { sendMessageRoute } from '../../utils/APIRoutes';
@@ -13,12 +13,24 @@ import EmojiPicker,{
   SuggestionMode,
   SkinTonePickerLocation
 } from 'emoji-picker-react'
+import io from 'socket.io-client'
+
+const ENDPOINT = 'http://localhost:5000'
+var socket, selectedChatCompare;
 
 export default function MessageInput({ messages, setMessages,newMessage, setNewMessage, user, selectedChat }) {
 
   const [ showEmojiPicker,setShowEmojiPicker ] = useState(false)
   const [ selectedEmoji, setSelectedEmoji ] = useState("")
   // const [ message,setMessage ] = useState("")
+
+  useEffect(()=>{
+    socket = io(ENDPOINT)
+    socket.emit('setup',user);
+    socket.on('connection',()=>{
+
+    })
+  },[])
 
  const sendMessage = async (event) => {
   event.preventDefault()
@@ -38,6 +50,7 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
       },config)
       console.log(data)
       setNewMessage('')
+      socket.emit('new message',data)
       setMessages([...messages,data])
     }catch(error){
       toast.error("Error Occurred!")
@@ -48,6 +61,8 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
  const typingHandler = (e) => {
   setNewMessage(e.target.value)
  }
+
+ 
 
   return (
     <StyledMessageInputContainer>

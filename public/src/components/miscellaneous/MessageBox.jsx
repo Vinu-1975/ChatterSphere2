@@ -17,6 +17,32 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
   // const [ newMessage, setNewMessage ] = useState()
   const [ socketConnected, setSocketConnected ] = useState(false)
 
+   useEffect(()=>{
+    socket = io(ENDPOINT)
+    socket.emit('setup',user);
+    socket.on('connection',()=>{
+
+    })
+  },[])
+  useEffect(()=>{
+    fetchMessages()
+
+    selectedChatCompare = selectedChat
+  },[selectedChat])
+  useEffect(()=>{
+    socket.on('message received',(newMessageReceived)=>{
+      // console.log(newMessageReceived)
+      if(!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id){
+        //give notification
+        console.log('he')
+      }else{
+        console.log('hi')
+        setMessages([...messages,newMessageReceived])
+        console.log(messages)
+      }
+    })
+  })
+
   const fetchMessages = async()=>{
     if(!selectedChat) return
 
@@ -38,30 +64,12 @@ export default function MessageBox({ user, selectedChat, messages, setMessages,n
     }
   }
 
-  useEffect(()=>{
-    fetchMessages()
-
-    selectedChatCompare = selectedChat
-  },[selectedChat])
+  
   // console.log(messages)
 
-  useEffect(()=>{
-    socket.on('message received',(newMessageReceived)=>{
-      if(!selectedChatCompare || selectedChatCompare._d !== newMessageReceived.chat._id){
-        //give notification
-      }else{
-        setMessages([...messages,newMessageReceived])
-      }
-    })
-  })
+  
 
-  useEffect(()=>{
-    socket = io(ENDPOINT)
-    socket.emit('setup',user);
-    socket.on('connection',()=>{
-
-    })
-  },[])
+ 
 
   return (
     <StyledMessageBox>
