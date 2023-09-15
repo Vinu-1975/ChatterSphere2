@@ -31,14 +31,14 @@ export default function ChatBox({ fetchAgain, setFetchAgain, selectedChat, setSe
               newMessage={newMessage}
               setNewMessage={setNewMessage}
             />
-            <MessageInput
+            {/* <MessageInput
               user={user}
               selectedChat={selectedChat}
               messages={messages}
               setMessages={setMessages}
               newMessage={newMessage}
               setNewMessage={setNewMessage}
-            />
+            /> */}
           </>
         ):(
           <EmptyChatContainer>

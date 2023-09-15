@@ -77,10 +77,12 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
   return (
     <SideBar>
             <div className="brand">
-              <div className="logo-container">
-                <img src={Logo} alt="ChatterSphere Logo" id='logo'/>
-              </div>
-              <h1>ChatterSphere</h1>
+              {/* <div className="brand-wrapper"> */}
+                <div className="logo-container">
+                  <img src={Logo} alt="ChatterSphere Logo" id='logo'/>
+                </div>
+                <h1>ChatterSphere</h1>
+              {/* </div> */}
             </div>
             <div className="search-bar-container">
               <input 
@@ -135,12 +137,12 @@ const SideBar = styled.div`
     width:30vw;
     box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     .brand{
-      /* border: 1px solid blue; */
+      border: 1px solid blue;
       height:15%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: larger;
+      font-size: 1.1rem;
       .logo-container{
         /* border: 5px solid yellow; */
         width:35%;

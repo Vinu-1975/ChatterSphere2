@@ -3,16 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { sendMessageRoute } from '../../utils/APIRoutes';
 import toast, { Toaster } from 'react-hot-toast';
-import EmojiPicker,{
-  EmojiStyle,
-  SkinTones,
-  Theme,
-  Categories,
-  EmojiClickData,
-  Emoji,
-  SuggestionMode,
-  SkinTonePickerLocation
-} from 'emoji-picker-react'
+import EmojiPicker from 'emoji-picker-react'
 import io from 'socket.io-client'
 
 const ENDPOINT = 'http://localhost:5000'
@@ -51,7 +42,9 @@ export default function MessageInput({ messages, setMessages,newMessage, setNewM
       console.log(data)
       setNewMessage('')
       socket.emit('new message',data)
-      setMessages([...messages,data])
+      // setMessages([...messages,data])
+      setMessages(prevMessages => [...prevMessages, data]);
+
     }catch(error){
       toast.error("Error Occurred!")
     }

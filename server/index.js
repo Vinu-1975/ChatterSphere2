@@ -47,7 +47,7 @@ io.on('connection',(socket)=>{
   })
 
   socket.on('new message',(newMessageReceived)=>{
-    console.log(newMessageReceived)
+    // console.log(newMessageReceived)
     var chat = newMessageReceived.chat;
     if(!chat.users) return console.log('chat.users not defined')
 
@@ -55,5 +55,9 @@ io.on('connection',(socket)=>{
       if(user._id == newMessageReceived.sender._id) return;
       socket.in(user._id).emit('message received',newMessageReceived)
     })
+  })
+  socket.off('setup',()=>{
+    console.log("User disconnected")
+    socket.leave(userData._id)
   })
 })
