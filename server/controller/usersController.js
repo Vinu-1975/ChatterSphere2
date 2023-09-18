@@ -48,8 +48,15 @@ module.exports.register = async (req,res,next) => {
             return res.status(400).send("No file received")
         }
         const mime = req.file.mimetype
+        console.log(mime)
         const base64 = req.file.buffer.toString('base64')
         const base64URL = `data:${mime};base64,${base64}`
+        cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+            secure: true,
+        });
         const result = await cloudinary.uploader.upload(base64URL,
             {
                 public_id:`${req.body.username}`,
@@ -75,6 +82,7 @@ module.exports.register = async (req,res,next) => {
         delete user.password
         res.status(201).json({status:true,returnUser})
     }catch(ex){
+        console.lod(ex)
         res.status(400)
         throw new Error("Failed to create an Account")
         next(ex)
