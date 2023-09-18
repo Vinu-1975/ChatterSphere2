@@ -3,9 +3,9 @@ const User = require('../model/userModel')
 const cloudinary = require('cloudinary').v2
 
 cloudinary.config({
-    cloud_name: 'dux8bgl5g',
-    api_key: '318481684521768',
-    api_secret: 'sw4CtXe5NuVXxqNQjS1sejIRBZY',
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true,
 });
 
