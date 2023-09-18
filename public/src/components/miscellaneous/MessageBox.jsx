@@ -175,7 +175,7 @@ import { fetchMessagesRoute, sendMessageRoute } from '../../utils/APIRoutes';
 import ScrollableFeed from 'react-scrollable-feed';
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from '../../config/ChatLogics';
 
-const ENDPOINT = 'https://chattersphere2.onrender.com/';
+const ENDPOINT = 'https://chattersphere2.onrender.com';
 var socket, selectedChatCompare;
 
 export default function MessageBox({ user, selectedChat, initialMessages }) {
