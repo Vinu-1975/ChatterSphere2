@@ -1,5 +1,12 @@
-import React from 'react'
 import { styled } from 'styled-components'
+import PropTypes from 'prop-types';
+
+UserBadge.propTypes = {
+    handleFunction: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        username: PropTypes.string.isRequired
+    }).isRequired
+};
 
 export default function UserBadge({handleFunction,user}) {
   return (

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import SideBar from '../components/SideBarChat'
+import SideBarChat from '../components/SideBarChat'
 import ChatBox from '../components/ChatBox'
 import { useNavigate } from 'react-router-dom'
-import TopBar from '../components/SideBar'
+import SideBar from '../components/SideBar'
 
 export default function Chat() {
   const navigate = useNavigate()
@@ -15,7 +15,6 @@ export default function Chat() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats,setChats] = useState([])
 
-  
 
   useEffect(() => {
     try {
@@ -30,31 +29,29 @@ export default function Chat() {
     }
   }, [navigate]);
   
-  // console.log(user)
   return (
     <Container>
-      {user && <TopBar user = {user}/>}
-      {user && <SideBar 
-        user = {user}
-        search = {search}
-        setSearch={setSearch}
-        searchResult={searchResult}
-        setSearchResult={setSearchResult}
-        selectedChat={selectedChat}
-        setSelectedChat={setSelectedChat}
-        chats={chats}
-        setChats={setChats}
-        fetchAgain={fetchAgain}
-      />}
-      {user && <ChatBox 
-        user = {user}
-        fetchAgain={fetchAgain}
-        setFetchAgain={setFetchAgain}
-        selectedChat={selectedChat}
-        setSelectedChat={setSelectedChat}
-        // chats={chats}
-        // setChats={setChats}
-        />}
+        {user && <SideBar user = {user}/>}
+          {user && <SideBarChat 
+            user = {user}
+            search = {search}
+            setSearch={setSearch}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult}
+            selectedChat={selectedChat}
+            setSelectedChat={setSelectedChat}
+            chats={chats}
+            setChats={setChats}
+            fetchAgain={fetchAgain}
+          />}
+          {user && <ChatBox 
+            user = {user}
+            fetchAgain={fetchAgain}
+            setFetchAgain={setFetchAgain}
+            selectedChat={selectedChat}
+            setSelectedChat={setSelectedChat}
+          />}
+      
     </Container>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -19,55 +19,29 @@ export default function Login() {
 
   const [isLoading,setIsLoading] = useState(false)
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
-//     if(handleValidation()){
-//         setIsLoading(true);
-//       const { username,password } = values
-
-//       const { data } = await axios.post(loginRoute,{
-//         username,
-//         password
-//       })
-      
-//       setIsLoading(false);
-//       if(data.status === false){
-//         toast.error(data.msg)
-//       }
-//       if(data.status === true){
-//         localStorage.setItem('ChatterSphere-user',JSON.stringify(data.user))
-//         navigate("/")
-//       }
-//     }
-
-//   }
-// useEffect(() => {
-//     const user = JSON.parse(localStorage.getItem('ChatterSphere-user'))
-//     if(user) navigate("/chats")
-//   }, [navigate])
-
 const handleSubmit = async (e) => {
-    e.preventDefault()
-    if(handleValidation()){
+    e.preventDefault();
+    if (handleValidation()) {
         setIsLoading(true);
-        const { username,password } = values
+        const { username, password } = values;
 
-        const request = axios.post(loginRoute, { username, password });
-        const delay = new Promise((resolve) => setTimeout(resolve, 1000));
-
-        const [{ data }] = await Promise.all([request, delay]);
-
-        setIsLoading(false);
-        // console.log(data)
-        if(data.status === false){
-            toast.error(data.msg)
-        }
-        if(data.status === true){
-            localStorage.setItem('ChatterSphere-user',JSON.stringify(data.returnUser))
-            navigate("/")
+        try {
+            const { data } = await axios.post(loginRoute, { username, password });
+            setIsLoading(false);
+            if (data.status === false) {
+                toast.error(data.msg);
+            }
+            if (data.status === true) {
+                localStorage.setItem('ChatterSphere-user', JSON.stringify(data.returnUser));
+                navigate("/");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            toast.error("An error occurred during the login process.");
         }
     }
-}
+};
+
 
 
   const handleValidation = () => {
@@ -109,7 +83,7 @@ const handleSubmit = async (e) => {
               <div className="heading">
                 <h2>Login</h2>
               </div>
-              <div>
+              <div className='input-group'>
                 <input 
                   type="text"
                   placeholder='Username' 
@@ -127,8 +101,14 @@ const handleSubmit = async (e) => {
                 />
                 {errors.password && <p>{errors.password}</p>}
               </div>
-              <button type='submit'>
+              <button 
+                type="submit"
+                className="cssbuttons-io-button"
+              >
                 Login
+                <div className="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path></svg>
+                </div>
               </button>
               <span>
                 New to ChatterSphere?  <Link to="/register">REGISTER</Link>
@@ -152,6 +132,8 @@ const FormContainer = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
+  background: #dee5e8;
+  box-shadow:  21px 21px 42px #bdc3c5,-21px -21px 42px #ffffff;
   .left{
     height:100vh;
     width:60vw;
@@ -164,9 +146,17 @@ const FormContainer = styled.div`
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      @keyframes floatEffect {
+        0%, 100% {
+          transform: translateY(-5px);
+        }
+        50% {
+          transform: translateY(5px);
+        }
+      }
       img {
         height: 40rem;
-      
+        animation: floatEffect 5s cubic-bezier(0.165, 0.84, 0.44, 1) infinite; 
       }
       h1 {
         margin-left:-35px;
@@ -184,12 +174,13 @@ const FormContainer = styled.div`
     justify-content: center;
     align-items: center;
     form{
-      box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+      /* box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12); */
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
       height: auto;
       width:70%;
       display: flex;
       flex-direction: column;
-      gap:1.6rem;
+      gap:1.2rem;
       padding: 3rem 3.5rem;
       border-radius: 1rem;
       &::placeholder{
@@ -201,31 +192,75 @@ const FormContainer = styled.div`
         color:#6fd492;
         /* text-wrap:balance; */
       }
+  
       input {
-      background-color: transparent;
-      padding: 1rem;
-      border: 0.1rem solid #fbc852;
-      border-radius: 0.4rem;
-      width: 100%;
-      font-size: 1rem;
+        background-color: transparent;
+        padding: 0.8rem;
+        outline: none;
+        border:none;
+        border-bottom: 0.1rem solid #74d465;
+        border-radius: 0.4rem;
+        width: 100%;
+        font-size: 1rem;
         &:focus {
-          border: 0.1rem solid #997af0;
+          border-bottom: 0.1rem solid #997af0;
           outline: none;
         }
       }
-      button {
-        background-color: #07e4df;
+      .cssbuttons-io-button {
+        background: #A370F0;
+        background: #00d0cc;
         color: white;
-        padding: 1rem 2rem;
+        font-family: inherit;
+        padding: 0.35em;
+        padding-left: 1.2em;
+        font-size: 17px;
+        font-weight: 500;
+        border-radius: 0.9em;
         border: none;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 0.4rem;
-        font-size: 1rem;
-        text-transform: uppercase;
-          &:hover {
-            background-color: #4e0eff;
-          }
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        /* box-shadow: inset 0 0 1.6em -0.6em #714da6; */
+        box-shadow: inset 0 0 1.6em -0.6em #07e4df;
+        box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+        overflow: hidden;
+        position: relative;
+        height: 2.8em;
+        padding-right: 3.3em;
+      }
+
+      .cssbuttons-io-button .icon {
+        background: white;
+        margin-left: 1em;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.2em;
+        width: 2.2em;
+        border-radius: 0.7em;
+        box-shadow: 0.1em 0.1em 0.6em 0.2em #44dbd9;
+        right: 0.3em;
+        transition: all 0.8s;
+      }
+
+      .cssbuttons-io-button:hover .icon {
+        width: calc(100% - 0.6em);
+      }
+
+      .cssbuttons-io-button .icon svg {
+        width: 1.1em;
+        transition: transform 0.3s;
+        color: #7b52b9;
+      }
+
+      .cssbuttons-io-button:hover .icon svg {
+        transform: translateX(0.1em);
+      }
+
+      .cssbuttons-io-button:active .icon {
+        transform: scale(0.95);
       }
       span {
         text-transform: uppercase;
@@ -242,6 +277,66 @@ const FormContainer = styled.div`
         font-size: 0.8rem;
         margin-top: 0.2rem;
       }
+    }
+  }
+  @media (max-width: 1190px) and (min-width: 869px) {
+    .left {
+      .brand {
+        img {
+          height: 30rem; // Reduced height from 40rem
+        }
+        h1 {
+          font-size: 55px; // Reduced font size from 57px
+        }
+        span {
+          font-size: 24px; // Reduced font size from 30px
+        }
+      }
+    }
+  }
+  @media (max-width: 868px) {  // Adjust this breakpoint value as needed
+    flex-direction: column;
+    overflow-y: auto;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+        width: 0;
+        background: transparent; // Optional: Make scrollbar transparent
+      }
+
+      // Hide scrollbar for IE and Edge
+      & {
+        -ms-overflow-style: none;  // IE and Edge
+        scrollbar-width: none;     // Firefox
+      }
+
+    .left {
+      width: 100vw;
+      height:30vh;
+      flex-direction: column;
+      
+      .brand {
+        align-items: center;
+        justify-content: center;
+        img {
+          height: 15rem;
+        }
+        h1 {
+          margin-left: 0;
+          font-size: 32px;
+        }
+      }
+    }
+
+    .right {
+      width: 100vw;
+      height: auto;
+      form {
+        width: 90%; // adjust this based on your preference for mobile layout
+        /* max-height: 50vh; */
+        
+      }
+      
     }
   }
 `;

@@ -11,7 +11,7 @@ const path = require('path')
 app.use(cors());
 app.use(express.json())
 
-mongoose.connect(process.env.MONGO_URL2)
+mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
   console.log("MOngoose connected successfully")
 })
@@ -46,8 +46,8 @@ const server = app.listen(process.env.PORT || 5000, () => console.log('Proxy ser
 const io = require('socket.io')(server,{
   pingTimeout:60000,
   cors:{
-    origin:"https://chattersphere2.onrender.com"
-    // origin:"http://localhost:3000"
+    // origin:"https://chattersphere2.onrender.com"
+    origin:"http://localhost:3000"
   }
 })
 

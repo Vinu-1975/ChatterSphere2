@@ -1,10 +1,23 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { styled } from 'styled-components';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import { allUsers, createGroup } from '../../utils/APIRoutes';
 import UserCard from './UserCard';
 import UserBadge from './UserBadge';
+import PropTypes from 'prop-types';
+
+GroupChatModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    handleSave: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        token: PropTypes.string.isRequired,
+        _id:PropTypes.string,
+    }).isRequired,
+    chats: PropTypes.arrayOf(PropTypes.object).isRequired,
+    setChats: PropTypes.func.isRequired,
+};
 export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chats,setChats }) {
     
     const [groupChatName,setGroupChatName] = useState('')
@@ -13,19 +26,6 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
     const [search,setSearch] = useState('')
     const [searchResult,setSearchResult] = useState([])
     const [loading,setLoading] = useState(false)
-
-    // function debounce(func, wait) {
-    //   let timeout;
-    //   const debounced = function(...args) {
-    //     const context = this;
-    //     clearTimeout(timeout);
-    //     timeout = setTimeout(() => func.apply(context, args), wait);
-    //   };
-
-    //   debounced.clear = () => clearTimeout(timeout);
-
-    //   return debounced;
-    // }
     
     const handleSearch = async (query) => {
         setSearch(query)
@@ -41,7 +41,6 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                 }
             }
             const { data } = await axios.get(`${allUsers}?search=${search}`,config)
-            // console.log(data)
             setLoading(false)
             setSearchResult(data)
         }catch(error){
@@ -67,15 +66,7 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                     Authorization: `Bearer ${user.token}`
                 }
             }
-            // const { data } = await axios.post(createGroup,{
-            //     name:groupChatName,
-            //     users:JSON.stringify(selectedUsers.map((u)=>u._id)),
-            //     groupAvatarImage:groupAvatar
-            // },
-            // config
-            // )
             const { data } = await axios.post(createGroup, formData, config);
-            // console.log(data)
             setChats([data,...chats])
             toast.success("New Group Chat Created")
             handleSave()
@@ -148,7 +139,6 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                         {
                         loading?<div>loading</div>:(
                             searchResult?.slice(0,4).map(user => (
-                                // <div key={user._id} onClick={() => handleGroup(user)}></div>
                                 <UserCard
                                     key={user._id}
                                     user={user}

@@ -1,13 +1,30 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { styled } from 'styled-components'
 import { getSender } from '../../config/ChatLogics'
-// import ThreeBars from '../../assets/ThreeBars.png'
 import Lottie from 'lottie-react'
 import menuIcon from '../../assets/menu-nav-icon.json'
 import GroupDetailsModal from './GroupDetailsModal'
 import UserDetailModal from './UserDetailModal'
+import PropTypes from 'prop-types';
+import BackButton from '../../assets/BackButton.json'
 
-export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, setSelectedChat }) {
+
+TopBar.propTypes = {
+    fetchAgain: PropTypes.bool,
+    setFetchAgain: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        username: PropTypes.string.isRequired
+    }).isRequired,
+    selectedChat: PropTypes.shape({
+        users: PropTypes.array,
+        isGroupChat: PropTypes.bool,
+        chatName: PropTypes.string,
+        avatarImage: PropTypes.string
+    }),
+    setSelectedChat: PropTypes.func.isRequired,
+};
+
+export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, setSelectedChat,}) {
 
     let displayText = "";
     if (selectedChat && selectedChat.users) {
@@ -18,7 +35,6 @@ export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, 
             displayText = sender.username;
         }
     }
-    // const sender = getSender(user,selectedChat.users)
 
     const [isModalOpen,setIsModalOpen] = useState(false)
 
@@ -27,15 +43,15 @@ export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, 
     }
   return (
     <StyledTopBar>
+        <BackButtonContainer>
+            <Lottie 
+                animationData={BackButton}
+                style={{ width: "30px", height: "30px" }}
+                loop 
+                autoPlay
+            />
+        </BackButtonContainer>
         <div className="user-details">
-            {/* {
-                sender && (
-                    <>
-                        <img src={sender.avatarImage} alt="" />
-                        <h2>{sender.username}</h2>
-                    </>
-                )
-            } */}
             {
                 displayText && (
                     <>
@@ -46,7 +62,6 @@ export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, 
             }
         </div>
         <div className="user-setting-icon">
-            {/* <img src={ThreeBars} alt="" /> */}
             <Lottie 
                 animationData={menuIcon}
                 style={{ width: "50px", height: "50px" }}
@@ -61,7 +76,10 @@ export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, 
   )
 }
 
+
+
 const StyledTopBar = styled.div`
+background-color: #e9e2c4;
     height: 10%;
     display: flex;
     flex-direction: row;
@@ -91,3 +109,13 @@ const StyledTopBar = styled.div`
         }
     }
 `
+
+const BackButtonContainer = styled.button`
+    border: 1px solid black;
+    border-radius: 50%;
+    display: none; // By default, it's hidden
+
+    @media (max-width: 768px) { // It becomes visible on screens smaller than 768px
+        display: block;
+    }
+`;

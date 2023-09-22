@@ -1,6 +1,17 @@
-import React from 'react';
 import { styled } from 'styled-components';
 import { getSender } from '../../config/ChatLogics';
+import PropTypes from 'prop-types';
+
+UserDetailModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    chat: PropTypes.shape({
+        users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+    user: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+    }).isRequired
+};
 
 export default function UserDetailModal({ isOpen, onClose, chat, user }) {
     if (!isOpen) return null;

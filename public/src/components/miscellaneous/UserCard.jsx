@@ -1,5 +1,13 @@
-import React from 'react'
 import { styled } from 'styled-components'
+import PropTypes from 'prop-types';
+
+UserCard.propTypes = {
+    user: PropTypes.shape({
+        avatarImage: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+    }).isRequired,
+    onClick: PropTypes.func.isRequired
+};
 
 export default function UserCard({ user,onClick }) {
   return (
@@ -19,7 +27,7 @@ const StyledUserCard = styled.div`
     padding: 12px;
     border-bottom: 1px solid #e5e5e5;
     transition: background-color 0.2s;
-
+    background-color: #f9f4e1;
     &:hover {
       background-color: #f6f6f6;
     }

@@ -1,5 +1,14 @@
-import React from 'react'
 import { styled } from 'styled-components';
+import PropTypes from 'prop-types'
+
+SenderCard.propTypes = {
+    sender: PropTypes.shape({
+        avatarImage: PropTypes.string.isRequired,
+        username: PropTypes.string,
+        isGroupChat: PropTypes.bool,
+        chatName: PropTypes.string
+    }).isRequired
+};
 
 export default function SenderCard({ sender }) {
   return (
@@ -8,7 +17,6 @@ export default function SenderCard({ sender }) {
                 <img src={sender.avatarImage} alt={`${sender.username}'s avatar`} className="avatar" />
                 <div className="sender-details">
                     <h4>{sender.isGroupChat?sender.chatName:sender.username}</h4>
-                    <p>{`Last Message`}</p>
                 </div>
             {/* </div> */}
             
@@ -23,6 +31,7 @@ const StyledSenderCard = styled.div`
     height: 4.7rem;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     border-radius: 12px;
+    background-color: #f3ecd0;
 
     .avatar {
         width: 50px;  // Adjust as per your requirements

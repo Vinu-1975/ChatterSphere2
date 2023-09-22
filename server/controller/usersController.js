@@ -36,6 +36,7 @@ module.exports.allUsers = async(req, res) => {
 
 module.exports.register = async (req,res,next) => {
     try{
+        console.log('registering')
         const { username,email,password } = req.body
         const usernameCheck = await User.findOne({username})
         if(usernameCheck) return res.json({msg:"Username already exist",status:false})
@@ -91,6 +92,7 @@ module.exports.register = async (req,res,next) => {
 
 module.exports.login = async (req,res,next) => {
     try{
+        console.log('loging in')
         const { username,password } = req.body
         const user = await User.findOne({username})
         if(!user) return res.json({msg:"Incorrect Username or Password",status:false})
@@ -107,6 +109,7 @@ module.exports.login = async (req,res,next) => {
         }
         return res.json({status:true,returnUser})
     }catch(ex){
+        console.log(ex)
         next(ex)
     }
 }

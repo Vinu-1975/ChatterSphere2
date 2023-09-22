@@ -1,6 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
+SideBar.propTypes = {
+    user: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        token: PropTypes.string.isRequired,
+        imageUrl: PropTypes.string,
+    }).isRequired,
+};
 
 export default function SideBar({ user }) {
   const navigate = useNavigate()
@@ -48,7 +59,7 @@ export default function SideBar({ user }) {
               <a href={`mailto:${user.email}`}>{user.email}</a>
             </div>
             <div className="bio">
-              <p>{user.bio}</p>
+              {/* <p>{user.bio}</p> */}
             </div>
             <button onClick={() => setShowUserDetails(false)}>Close</button>
           </div>
@@ -72,11 +83,11 @@ const TopBarContainer = styled.div`
   justify-content: space-between;
   padding: 10px 10px;
   background-color: #e9e9e9;
+  background-color: #ccc193;
+  background-color: #79714e;
   border-bottom: 1px solid #d3d3d3;
-  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.3);
-  /* filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.3)); */
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
   .profilePhoto {
-    /* border: 2px solid red; */
     img{
     display: block;
     width: 70px;
@@ -85,7 +96,6 @@ const TopBarContainer = styled.div`
     }
   }
   .options{
-    /* border: 2px solid black; */
     display: flex;
     flex-direction: column;
     width:100%;
@@ -98,7 +108,12 @@ const TopBarContainer = styled.div`
     }
 
   }
-  
+  @media (max-width: 768px) { 
+        img{
+          width:400px;
+          height:40px;
+        }
+    }
   
 `;
 
@@ -113,9 +128,7 @@ const UserDetailsBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* background-color: #fff; */
   padding: 20px;
-  /* box-shadow: 0px 0px 10px rgba(0,0,0,0.2); */
   z-index: 1000;
   background: rgba( 255, 255, 255, 0.25 );
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
@@ -175,5 +188,4 @@ const UserDetailsBox = styled.div`
       box-shadow: 0 0 3px 2px rgba(0, 123, 255, 0.5);  // add a subtle blue glow on focus
     }
   }
-  
 `;

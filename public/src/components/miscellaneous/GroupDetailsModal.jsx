@@ -1,8 +1,35 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import { renameGroup } from '../../utils/APIRoutes';
 import axios from 'axios'
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+
+GroupDetailsModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    chat: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        avatarImage: PropTypes.string.isRequired,
+        chatName: PropTypes.string.isRequired,
+        groupAdmin: PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+        }).isRequired,
+        users: PropTypes.arrayOf(PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            username: PropTypes.string.isRequired
+        })).isRequired
+    }).isRequired,
+    setChat: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        token: PropTypes.string.isRequired,
+        username: PropTypes.string,
+    }).isRequired,
+    fetchAgain: PropTypes.bool.isRequired,
+    setFetchAgain: PropTypes.func.isRequired,
+};
+
 export default function GroupDetailsModal({ isOpen, onClose, chat, setChat, user, fetchAgain, setFetchAgain }) {
     const [newGroupName, setNewGroupName] = useState('');
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
@@ -13,7 +40,7 @@ export default function GroupDetailsModal({ isOpen, onClose, chat, setChat, user
         setIsRenameModalOpen(prev => !prev);
     };
 
-    const handleRename = async (newName) => {
+    const handleRename = async () => {
         if(chat.groupAdmin._id!== user._id){
             toast.error("Only Admins can Make Changes!")
             return
@@ -33,7 +60,7 @@ export default function GroupDetailsModal({ isOpen, onClose, chat, setChat, user
             setFetchAgain(!fetchAgain)
             toggleRenameModal();
         }catch(error){
-            toast.error('Error Occured!')
+            toast.error('Error Occurred!')
         }
         setNewGroupName('')
     };
