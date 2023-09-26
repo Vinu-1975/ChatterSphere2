@@ -78,7 +78,6 @@ module.exports.createGroupChat = async (req,res) => {
 
 
     try {
-        // Check for necessary fields
         if (!req.body.users || !req.body.name) {
             return res.status(400).send({ message: "Please fill all the fields." });
         }
