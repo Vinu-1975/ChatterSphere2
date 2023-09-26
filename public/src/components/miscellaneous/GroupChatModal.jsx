@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { styled } from 'styled-components';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -26,6 +26,7 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
     const [search,setSearch] = useState('')
     const [searchResult,setSearchResult] = useState([])
     const [loading,setLoading] = useState(false)
+    const fileInputRef = useRef(null);
     
     const handleSearch = async (query) => {
         setSearch(query)
@@ -93,19 +94,30 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
     const handleDelete = (delUser) => {
         setSelectedUsers(selectedUsers.filter(sel => sel._id !== delUser._id))
     }
+    const handleOutsideClick = (event) => {
+    if (event.target === event.currentTarget) {
+        handleClose();
+    }
+};
 
     if (!isOpen) return null;
     return (
-        <ModalWrapper>
+        <ModalWrapper onClick={handleOutsideClick}>
             <ModalContent>
+                <div className="center-wrap">
                 <h2>Create Group Chat</h2>
                 <form>
-                    <div className="input-wrapper">
+                    <div className="input-wrapper file-input" onClick={() => fileInputRef.current.click()}>
+                        <div className="file-icon">
+                            +
+                        </div>
                         <input 
+                            ref = {fileInputRef}
                             type='file'
                             name='groupAvatarImage'
                             accept='image/*'
                             onChange={handleFileChange}
+                            style={{display:'none'}}
                         />
                     </div>
                     <div className="input-wrapper">
@@ -118,12 +130,19 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                         />
                     </div>
                     <div className="input-wrapper">
-                        <input 
+                        {/* <input 
                            type="text" 
                            placeholder='Add Users' 
                            value={search}
                            name='search'
                            onChange={e => handleSearch(e.target.value)}
+                        /> */}
+                        <input 
+                          type="text"
+                          placeholder='Add Users'
+                          value={search}
+                          name="search"
+                          onChange={(e) => handleSearch(e.target.value)}
                         />
                     </div>
                     <div className="added-users">
@@ -149,10 +168,16 @@ export default function GroupChatModal({ isOpen,handleClose,handleSave,user,chat
                         }
                     </div>
                     <div className="buttons">
-                        <button onClick={handleClose}>Cancel</button>
-                        <button className="save-btn" onClick={(e) => handleSubmit(e)}>Create</button>
+                        <button className="save-btn" onClick={(e) => handleSubmit(e)}>
+                                <span>Create</span>
+                                <svg viewBox="0 0 13 10" height="10px" width="15px">
+                                  <path d="M1,5 L11,5"></path>
+                                  <polyline points="8 1 12 5 8 9"></polyline>
+                                </svg>
+                        </button>
                     </div>
                 </form>
+                </div>
             </ModalContent>
         </ModalWrapper>
     );
@@ -171,13 +196,49 @@ const ModalWrapper = styled.div`
 `;
 
 const ModalContent = styled.div`
-    width: 300px;
+    h2{
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    width: 25vw;
+    height:auto;
     padding: 20px;
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .center-wrap{
+        width:100%;
+        height:100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+    }
+    .file-input {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        cursor: pointer;
+    }
+
+    .file-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #007BFF;
+        color: #fff;
+        font-size: 24px;
+    }
 
     .added-users{
         display: flex;
@@ -195,45 +256,85 @@ const ModalContent = styled.div`
     }
     .input-wrapper {
         margin-bottom: 15px;
-
         input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: border 0.2s;
-        }
-
-        input:focus {
-            border-color: #007BFF;
+          background-color: transparent;
+          padding: 0.8rem;
+          outline: none;
+          border:none;
+          border-bottom: 0.1rem solid #74d465;
+          border-radius: 0.4rem;
+          width: 100%;
+          font-size: 1rem;
+          &:focus {
+            border-bottom: 0.1rem solid #997af0;
             outline: none;
+          }
         }
     }
 
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        button:hover {
-            background-color: #007BFF;
-            color: #ffffff;
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
         }
 
         .save-btn {
-            background-color: #007BFF;
-            color: #ffffff;
-        }
+            position: relative;
+            margin: auto;
+            padding: 12px 18px;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            
 
-        .save-btn:hover {
-            background-color: #0056b3;
+            
         }
-    }
+        .save-btn:before {
+             content: "";
+             position: absolute;
+             top: 0;
+             left: 0;
+             display: block;
+             border-radius: 50px;
+             background: #b1dae7;
+             width: 45px;
+             height: 45px;
+             transition: all 0.3s ease;
+            }
+
+            .save-btn span {
+             position: relative;
+             font-family: "Ubuntu", sans-serif;
+             font-size: 18px;
+             font-weight: 700;
+             letter-spacing: 0.05em;
+             color: #234567;
+            }
+
+            .save-btn svg {
+             position: relative;
+             top: 0;
+             margin-left: 10px;
+             fill: none;
+             stroke-linecap: round;
+             stroke-linejoin: round;
+             stroke: #234567;
+             stroke-width: 2;
+             transform: translateX(-5px);
+             transition: all 0.3s ease;
+            }
+
+            .save-btn:hover:before {
+             width: 100%;
+             background: #b1dae7;
+            }
+
+            .save-btn:hover svg {
+             transform: translateX(0);
+            }
+
+            .save-btn:active {
+             transform: scale(0.95);
+            }
 `;

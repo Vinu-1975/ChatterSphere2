@@ -11,7 +11,7 @@ const path = require('path')
 app.use(cors());
 app.use(express.json())
 
-mongoose.connect(process.env.MONGO_URL2)
+mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
   console.log("MOngoose connected successfully")
 })
