@@ -44,30 +44,34 @@ module.exports.register = async (req,res,next) => {
         if(emailCheck) return res.json({msg:"Email already exist",status:false})
 
         const hashedPassword = await bcrypt.hash(password,10)
-        if(!req.file){
-            console.log('No file received')
-            return res.status(400).send("No file received")
+        let avatarImageUrl = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
+        // if(!req.file){
+        //     console.log('No file received')
+        //     return res.status(400).send("No file received")
+        // }
+        if(req.file){    
+            const mime = req.file.mimetype
+            console.log(mime)
+            const base64 = req.file.buffer.toString('base64')
+            const base64URL = `data:${mime};base64,${base64}`
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET,
+                secure: true,
+            });
+            const result = await cloudinary.uploader.upload(base64URL,
+                {
+                    public_id:`${req.body.username}`,
+                    // upload_preset:'chat-app'
+                })
+            avatarImageUrl = result.url;
         }
-        const mime = req.file.mimetype
-        console.log(mime)
-        const base64 = req.file.buffer.toString('base64')
-        const base64URL = `data:${mime};base64,${base64}`
-        cloudinary.config({
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            api_key: process.env.CLOUDINARY_API_KEY,
-            api_secret: process.env.CLOUDINARY_API_SECRET,
-            secure: true,
-        });
-        const result = await cloudinary.uploader.upload(base64URL,
-            {
-                public_id:`${req.body.username}`,
-                // upload_preset:'chat-app'
-            })
         const user = await User.create({
             username,
             email,
             password:hashedPassword,
-            avatarImage:result.url
+            avatarImage:avatarImageUrl
         })
         
         
@@ -76,14 +80,14 @@ module.exports.register = async (req,res,next) => {
             _id:user._id,
             username:user.username,
             email:user.email,
-            imageUrl:result.url,
+            imageUrl:avatarImageUrl,
             token:generateToken(user._id)
         }
         // console.log(returnUser)
         delete user.password
         res.status(201).json({status:true,returnUser})
     }catch(ex){
-        console.lod(ex)
+        console.log(ex)
         res.status(400)
         throw new Error("Failed to create an Account")
         next(ex)

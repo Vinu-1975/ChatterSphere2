@@ -46,7 +46,7 @@ export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, 
         <BackButtonContainer>
             <Lottie 
                 animationData={BackButton}
-                style={{ width: "30px", height: "30px" }}
+                style={{ width: "30px", height: "30px",color:'white' }}
                 loop 
                 autoPlay
             />
@@ -79,7 +79,9 @@ export default function TopBar({ fetchAgain, setFetchAgain, user, selectedChat, 
 
 
 const StyledTopBar = styled.div`
-background-color: #e9e2c4;
+    background-color: #e9e2c4;
+    background-color: #213555;
+    color:#dddddd;
     height: 10%;
     display: flex;
     flex-direction: row;

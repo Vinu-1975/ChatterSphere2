@@ -235,6 +235,7 @@ const EmojiPickerWrapper = styled.div`
 
 const StyledMessageInputContainer = styled.div`
     background-color:#e9e2c4;
+    background-color:#ebebeb;
     display: flex;
     align-items: center;
     padding: 10px 20px;
@@ -266,6 +267,7 @@ const StyledInput = styled.input`
   border: none;
   background: rgba(255, 255, 255, 0.8);
   background-color:#e9e2c4;
+  background-color:#ebebeb;
   padding: 7px 15px;
   margin:10px;
   font-size: 18px;

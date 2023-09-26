@@ -56,6 +56,7 @@ const Box = styled.div`
   height:100vh;
   width:70vw;
   background-color: #FAF2D3;
+  background-color: #F1EFEF;
   border-left: 1px solid black;
   @media (max-width: 768px) { // It becomes visible on screens smaller than 768px
       display: none;
@@ -68,8 +69,8 @@ const EmptyChatContainer = styled.div`
     justify-content: center;
     align-items: center;
     height: 100vh;  // Takes full viewport height
-    background-color: #f6f8fa;
-    background-color: #FAF2D3;
+    background-color: #ffffff;
+    /* background-color: #FAF2D3; */
     
     h1 {
         color: #5c7cfa;

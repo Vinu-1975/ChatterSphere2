@@ -106,7 +106,7 @@ const Container = styled.div`
       h1{
         display: flex;
         align-items: center;
-        font-size: calc(12px + 1.6vw);
+        font-size: calc(12px + 1.2vw);
       }
       padding: 2px 20px;
       display: flex;

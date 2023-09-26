@@ -153,8 +153,8 @@ export default function SideBarChat({ user,search,setSearch,searchResult,setSear
 }
 
 const SideBar = styled.div`
-    background-color: #e8dcaf;
     height: 100vh;
+    background-color: #F0F0F0;
     width:30vw;
     box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rba(90, 125, 188, 0.05) 0px 0.25em 1em;
     .brand{
@@ -202,8 +202,8 @@ const SideBar = styled.div`
          border: 2px solid transparent;
          border-radius: 8px;
          outline: none;
-         background-color: #f4f3f4;
-         background-color: #f3ecd0;
+         background-color: #ffffff;
+         /* background-color: #f3ecd0; */
          color: #0d0c22;
          transition: .3s ease;
         }

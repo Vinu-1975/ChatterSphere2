@@ -32,6 +32,9 @@ const StyledSenderCard = styled.div`
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     border-radius: 12px;
     background-color: #f3ecd0;
+    background-color: #E5D283;
+    background-color: #ffffff;
+
 
     .avatar {
         width: 50px;  // Adjust as per your requirements

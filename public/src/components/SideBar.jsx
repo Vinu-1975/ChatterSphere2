@@ -83,10 +83,8 @@ const TopBarContainer = styled.div`
   justify-content: space-between;
   padding: 10px 10px;
   background-color: #e9e9e9;
-  background-color: #ccc193;
-  background-color: #79714e;
+  background-color: #213555;
   border-bottom: 1px solid #d3d3d3;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
   .profilePhoto {
     img{
     display: block;
@@ -100,6 +98,7 @@ const TopBarContainer = styled.div`
     flex-direction: column;
     width:100%;
     align-items: center;
+    color:#ececec;
     i{
       display: block;
       padding:15px 10px;
