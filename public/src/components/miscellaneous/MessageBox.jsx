@@ -13,7 +13,8 @@ import { useState,useEffect } from 'react';
 import Lottie from 'lottie-react'
 import SendMessageIcon from '../../assets/sendMessageIcon.json'
 
-const ENDPOINT = 'http://localhost:5000';
+// const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT = 'https://chattersphere2.onrender.com';
 var socket, selectedChatCompare;
 
 MessageBox.propTypes = {
