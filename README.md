@@ -10,7 +10,7 @@ Easily search for other users, engage in group discussions, and personalize your
 
 Access a live demo of My Web Chat Application hosted on Render:
 
-[Check it out here!]([https://your-app-link-on-render.com](https://chattersphere2.onrender.com))
+[Check it out here!](https://chattersphere2.onrender.com)
 
 ![App Screenshot](path-to-your-app-screenshot.png)
 
