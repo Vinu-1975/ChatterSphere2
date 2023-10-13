@@ -40,9 +40,9 @@ Access a live demo of My Web Chat Application hosted on Render:
 
 If you have any questions, suggestions, or just want to chat about the project, don't hesitate to reach out!
 
-- **Email**: [your-email@example.com](mailto:vinayakanvs2003@gmail.com)
-- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/vinayakan-v-s-9a2a9a222/)
-- **GitHub**: [@your-username](https://github.com/Vinu-1975)
+- **Email**: [vinayakanvs2003@gmail.com](mailto:vinayakanvs2003@gmail.com)
+- **LinkedIn**: [vinayakan-v-s](https://www.linkedin.com/in/vinayakan-v-s-9a2a9a222/)
+- **GitHub**: [@Vinu-1975](https://github.com/Vinu-1975)
 
 Feel free to open issues in the repository if you find any, or if you have feature requests.
 
