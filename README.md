@@ -2,7 +2,7 @@
 
 A modern chat application that provides real-time communication, account creation, profile management, and group interactions. Easily search for other users, engage in group discussions, and personalize your experience with profile and group images.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-green.svg)]([https://your-app-link-on-render.com](https://chattersphere2.onrender.com))
+[![Live Demo](https://img.shields.io/badge/demo-live-green.svg)]([https://chattersphere2.onrender.com](https://chattersphere2.onrender.com))
 
 Easily search for other users, engage in group discussions, and personalize your experience with profile and group images.
 
