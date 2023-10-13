@@ -18,11 +18,6 @@ Access a live demo of My Web Chat Application hosted on Render:
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ## Features
@@ -40,5 +35,15 @@ Access a live demo of My Web Chat Application hosted on Render:
 - **Frontend**: React.js
 - **Database**: MongoDB
 - **Real-time**: Socket.io
+
+## Contact
+
+If you have any questions, suggestions, or just want to chat about the project, don't hesitate to reach out!
+
+- **Email**: [your-email@example.com](mailto:vinayakanvs2003@gmail.com)
+- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/vinayakan-v-s-9a2a9a222/)
+- **GitHub**: [@your-username](https://github.com/Vinu-1975)
+
+Feel free to open issues in the repository if you find any, or if you have feature requests.
 
 
